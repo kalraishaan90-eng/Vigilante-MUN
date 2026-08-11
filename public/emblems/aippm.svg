@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <!-- AIPPM: Ashoka Chakra / Indian Parliament Crest -->
+  <circle cx="60" cy="60" r="46" fill="rgba(122, 44, 41, 0.4)" stroke="#CEE7F3" stroke-width="1.5"/>
+  <circle cx="60" cy="60" r="32" stroke="#F8FAED" stroke-width="2"/>
+  <circle cx="60" cy="60" r="6" fill="#F8FAED"/>
+  
+  <!-- 24 Spokes of Ashoka Chakra -->
+  <g stroke="#CEE7F3" stroke-width="1.2" opacity="0.95">
+    <line x1="60" y1="28" x2="60" y2="92"/>
+    <line x1="28" y1="60" x2="92" y2="60"/>
+    <line x1="37.37" y1="37.37" x2="82.63" y2="82.63"/>
+    <line x1="37.37" y1="82.63" x2="82.63" y2="37.37"/>
+    <line x1="44" y1="30.7" x2="76" y2="89.3"/>
+    <line x1="30.7" y1="44" x2="89.3" y2="76"/>
+    <line x1="30.7" y1="76" x2="89.3" y2="44"/>
+    <line x1="44" y1="89.3" x2="76" y2="30.7"/>
+    <line x1="51.7" y1="28.9" x2="68.3" y2="91.1"/>
+    <line x1="28.9" y1="51.7" x2="91.1" y2="68.3"/>
+    <line x1="28.9" y1="68.3" x2="91.1" y2="51.7"/>
+    <line x1="51.7" y1="91.1" x2="68.3" y2="28.9"/>
+  </g>
+  
+  <!-- Outer Decorative Ring -->
+  <circle cx="60" cy="60" r="40" stroke="#F8FAED" stroke-width="1" stroke-dasharray="2 4"/>
+</svg>

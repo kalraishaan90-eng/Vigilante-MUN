@@ -1,0 +1,1790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Vigilante MUN — October 10–11</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600..900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --dark-vanilla:#F3E1DD;
+    --beaver:#E3B7B4;
+    --quincy:#7A2C29;
+    --phil-brown:#6E120F;
+    --falu:#A91B18;
+    --warm-white:#F8FAED;
+    --ink:#181717;
+    --pale-blue:#CEE7F3;
+    --radius-card:16px;
+    --radius-hero:24px;
+    --radius-pill:999px;
+    --sp-1:8px; --sp-2:16px; --sp-3:24px; --sp-4:32px; --sp-6:48px; --sp-8:64px; --sp-12:96px; --sp-16:128px;
+    --ease: cubic-bezier(.19,1,.22,1);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background: transparent;
+    color: var(--ink);
+    font-family:'Inter', sans-serif;
+    overflow-x:hidden;
+    cursor:default;
+  }
+  ::selection{ background: var(--falu); color: var(--warm-white); }
+
+  h1,h2,h3,h4{
+    font-family:'Fraunces', serif;
+    font-weight:700;
+    color: var(--quincy);
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+  a{ color:inherit; text-decoration:none; }
+  button{ font-family:'Inter', sans-serif; }
+
+  .eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    font-size:11px;
+    font-weight:600;
+    text-transform:uppercase;
+    letter-spacing:0.12em;
+    color: var(--quincy);
+    opacity:0.75;
+  }
+  .eyebrow::before{
+    content:''; width:5px; height:5px; border-radius:50%;
+    background: var(--falu); flex-shrink:0;
+    animation: eyebrow-dot 2s ease-in-out infinite;
+  }
+  @keyframes eyebrow-dot{
+    0%,100%{ opacity:1; transform:scale(1); }
+    50%{ opacity:0.4; transform:scale(0.7); }
+  }
+  @media (prefers-reduced-motion: reduce){ .eyebrow::before{ animation:none; } }
+
+  /* ============ UTILITY PLACEHOLDER STYLING ============ */
+  .img-placeholder {
+    width: 100%;
+    height: 100%;
+    min-height: 160px;
+    background: repeating-linear-gradient(
+      45deg,
+      rgba(227,183,180,0.15) 0px,
+      rgba(227,183,180,0.15) 10px,
+      rgba(243,225,221,0.2) 10px,
+      rgba(243,225,221,0.2) 20px
+    );
+    border-radius: var(--radius-card);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--phil-brown);
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: 2px dashed rgba(122, 44, 41, 0.4);
+    padding: var(--sp-2);
+    text-align: center;
+  }
+
+  /* ============ GRAIN OVERLAY ============ */
+  #grain-overlay{
+    position:fixed; inset:0; z-index:15; pointer-events:none;
+    opacity:0.035; mix-blend-mode:overlay;
+  }
+  #grain-overlay svg{ width:100%; height:100%; }
+
+  /* ============ SPOTLIGHT CURSOR ============ */
+  #spotlight-cursor{
+    position:fixed; top:0; left:0; width:300px; height:300px;
+    border-radius:50%; pointer-events:none; z-index:16;
+    background: radial-gradient(circle, rgba(227,183,180,0.20) 0%, rgba(227,183,180,0.06) 45%, transparent 70%);
+    transform: translate(-50%,-50%);
+    transition: opacity .3s ease;
+    opacity:0;
+    will-change: transform;
+  }
+
+  /* ============ INTRO OVERLAY ============ */
+  #intro-overlay{
+    position:fixed; inset:0; z-index:100;
+    background: radial-gradient(circle at 50% 45%, #8B241F 0%, var(--phil-brown) 55%, #1F0705 100%);
+    display:flex; align-items:center; justify-content:center; flex-direction:column;
+    transition: opacity .9s var(--ease), visibility .9s var(--ease);
+  }
+  #intro-overlay .curtain{
+    position:absolute; inset:0; background:inherit;
+  }
+  #intro-overlay.opened{
+    opacity:0; visibility:hidden;
+  }
+  #intro-overlay .vmark{ width:120px; height:120px; position:relative; }
+  #intro-overlay .vmark svg{ width:100%; height:100%; overflow:visible; }
+  #intro-overlay .vmark path{
+    fill:none; stroke: var(--falu); stroke-width:3;
+    stroke-linecap:round; stroke-dasharray: 300; stroke-dashoffset:300;
+    filter: drop-shadow(0 0 10px rgba(169,27,24,0.7));
+    animation: draw-v 1.4s var(--ease) forwards;
+  }
+  @keyframes draw-v{ to{ stroke-dashoffset:0; } }
+  #intro-overlay .intro-label{
+    margin-top:22px; color: var(--dark-vanilla); font-family:'Fraunces',serif;
+    letter-spacing:0.3em; text-transform:uppercase; font-size:12px; opacity:0;
+    animation: fade-in-label .8s ease forwards 1.1s;
+  }
+  @keyframes fade-in-label{ to{ opacity:0.85; } }
+  #skip-intro{
+    position:absolute; bottom:40px; right:40px;
+    background:transparent; border:1px solid rgba(243,225,221,0.35);
+    color: var(--dark-vanilla); padding:10px 20px; border-radius:var(--radius-pill);
+    font-size:12px; letter-spacing:0.06em; cursor:pointer; opacity:0;
+    transition: opacity .4s ease, background .2s ease, border-color .2s ease;
+  }
+  #skip-intro.visible{ opacity:0.8; }
+  #skip-intro:hover{ background:rgba(243,225,221,0.1); border-color:rgba(243,225,221,0.6); opacity:1; }
+  #skip-intro:focus-visible{ outline:2px solid var(--falu); outline-offset:2px; }
+
+  /* ============ NAV ============ */
+  #hud-nav{
+    position:fixed; top:20px; left:50%; transform:translateX(-50%);
+    z-index:50; display:flex; align-items:center; gap:var(--sp-4);
+    padding:10px 22px; border-radius:var(--radius-pill);
+    background: rgba(248,250,237,0.55);
+    backdrop-filter: blur(32px) saturate(140%);
+    -webkit-backdrop-filter: blur(32px) saturate(140%);
+    border:1px solid rgba(122,44,41,0.14);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.4) inset, 0 12px 30px rgba(110,18,15,0.10);
+    transition: transform .15s ease;
+    max-width:92vw;
+  }
+  #hud-nav .logo-mark{
+    display:flex; align-items:center; gap:8px; font-family:'Fraunces',serif;
+    font-weight:800; font-size:14px; letter-spacing:0.02em; color: var(--phil-brown);
+    cursor:pointer;
+  }
+  #hud-nav .logo-mark svg{ width:18px; height:18px; }
+  #hud-nav .nav-links{ display:flex; gap:20px; }
+  #hud-nav .nav-links a{
+    font-size:12.5px; font-weight:600; color: var(--quincy); opacity:0.75;
+    letter-spacing:0.02em; padding:4px 2px; position:relative; white-space:nowrap;
+  }
+  #hud-nav .nav-links a::after{
+    content:''; position:absolute; left:0; bottom:-3px; width:0; height:1.5px; background: var(--falu);
+    transition: width .25s ease, box-shadow .25s ease;
+  }
+  #hud-nav .nav-links a:hover{ opacity:1; }
+  #hud-nav .nav-links a:hover::after{ width:100%; box-shadow: 0 0 8px rgba(169,27,24,0.6); }
+  #nav-toggle{ display:none; background:none; border:none; cursor:pointer; color:var(--quincy); }
+  @media(max-width:820px){
+    #hud-nav .nav-links{
+      display:none; position:absolute; top:calc(100% + 10px); left:0; right:0;
+      flex-direction:column; gap:2px; background:rgba(248,250,237,0.96); backdrop-filter:blur(20px);
+      border-radius:18px; padding:14px; border:1px solid rgba(122,44,41,0.14);
+      box-shadow: 0 12px 30px rgba(110,18,15,0.14);
+    }
+    #hud-nav .nav-links.open{ display:flex; }
+    #hud-nav .nav-links a{ padding:8px 6px; }
+    #nav-toggle{ display:block; }
+  }
+
+  /* ============ GLASS PANEL BASE ============ */
+  .glass{
+    background: rgba(122,44,41,0.14);
+    backdrop-filter: blur(30px) saturate(140%);
+    -webkit-backdrop-filter: blur(30px) saturate(140%);
+    border:1px solid rgba(122,44,41,0.14);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.35) inset, 0 20px 40px rgba(110,18,15,0.08);
+    border-radius: var(--radius-card);
+  }
+
+  section{ position:relative; padding: var(--sp-16) var(--sp-6); }
+  .section-inner{ max-width:1180px; margin:0 auto; }
+  .section-head{ margin-bottom: var(--sp-6); max-width:640px; }
+  .section-head h2{ font-size: clamp(28px,4vw,44px); margin-top:8px; }
+  .section-head p{ color: var(--quincy); opacity:0.85; margin-top:12px; line-height:1.6; font-size:15px; }
+
+  /* ============ HERO ============ */
+  #hero{
+    position:relative; min-height:100vh; display:flex; align-items:center; justify-content:center;
+    overflow:hidden; padding: var(--sp-6);
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 20%, rgba(227,183,180,0.35), transparent 60%),
+      linear-gradient(180deg, #F5E5E2 0%, var(--dark-vanilla) 55%, #E8C4C0 100%);
+  }
+  .hero-bg-photo {
+    position:absolute; inset:0; z-index:0; width:100%; height:100%;
+    background: url('https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&q=80&w=1600') center/cover no-repeat;
+    opacity: 0.12;
+    mix-blend-mode: multiply;
+  }
+  #hero-canvas{ position:absolute; inset:0; width:100%; height:100%; z-index:1; }
+  .hero-content{ position:relative; z-index:5; text-align:center; max-width:820px; }
+  .hero-content .eyebrow{ display:block; margin-bottom:18px; }
+  .wordmark{
+    font-family:'Fraunces',serif; font-weight:900; font-size:clamp(46px,9vw,108px);
+    color: var(--phil-brown); line-height:0.92; letter-spacing:-0.01em;
+  }
+  .wordmark-line{ display:block; }
+  .wordmark-line.line-mun{ color: var(--falu); }
+  .wordmark .word-mask {
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: bottom;
+    padding-bottom: 0.04em;
+  }
+  .wordmark .word-inner {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(105%);
+    filter: blur(20px);
+    will-change: transform, opacity, filter;
+  }
+  .wordmark.revealed .word-inner,
+  #intro-overlay.opened ~ main .wordmark .word-inner,
+  #intro-overlay.opened ~ #hero-cinema-wrap .wordmark .word-inner {
+    animation: word-mask-in 1.1s cubic-bezier(0.05, 0.9, 0.1, 1) forwards;
+  }
+  @keyframes word-mask-in {
+    0% { opacity: 0; transform: translateY(105%); filter: blur(20px); }
+    100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+  }
+
+  /* Letter-Mask Heading Reveal */
+  .letter-mask-heading .letter-mask {
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: bottom;
+  }
+  .letter-mask-heading .letter-inner {
+    display: inline-block;
+    opacity: 0;
+    transform: translateX(-105%);
+    filter: blur(20px);
+    will-change: transform, opacity, filter;
+  }
+  .letter-mask-heading.revealed .letter-inner,
+  .section-head.revealed .letter-mask-heading .letter-inner {
+    animation: letter-mask-in 1.2s cubic-bezier(0.05, 0.9, 0.1, 1) forwards;
+  }
+  @keyframes letter-mask-in {
+    0% { opacity: 0; transform: translateX(-105%); filter: blur(20px); }
+    100% { opacity: 1; transform: translateX(0); filter: blur(0); }
+  }
+  .wordmark-underline{
+    display:block; height:3px; width:0; margin:18px auto 0; background: var(--falu);
+    box-shadow: 0 0 14px rgba(169,27,24,0.6);
+    animation: telegraph 1s var(--ease) forwards 1.6s;
+  }
+  @keyframes telegraph{ to{ width:220px; } }
+  .hero-tagline{
+    margin-top:26px; font-size:16px; color: var(--quincy); opacity:0; line-height:1.6;
+    animation: fade-up .8s ease forwards 2.1s;
+  }
+  .hero-ctas{ margin-top:32px; display:flex; gap:14px; justify-content:center; flex-wrap:wrap;
+    opacity:0; animation: fade-up .8s ease forwards 2.35s;
+  }
+  @keyframes fade-up{ from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:translateY(0);} }
+
+  .btn{
+    display:inline-flex; align-items:center; gap:8px; padding:14px 26px; border-radius:var(--radius-pill);
+    font-weight:600; font-size:14px; cursor:pointer; border:none; transition: transform .2s ease, box-shadow .2s ease;
+  }
+  .btn:hover{ transform: translateY(-2px); }
+  .btn-primary{
+    background: var(--falu); color: var(--warm-white);
+    box-shadow:0 10px 24px rgba(169,27,24,0.35);
+    animation: cta-pulse 3.2s ease-in-out infinite;
+  }
+  .btn-primary:hover{ box-shadow:0 14px 30px rgba(169,27,24,0.45); animation-play-state:paused; }
+  @keyframes cta-pulse{
+    0%,100%{ box-shadow:0 10px 24px rgba(169,27,24,0.35); }
+    50%{ box-shadow:0 10px 32px rgba(169,27,24,0.55); }
+  }
+  @media (prefers-reduced-motion: reduce){ .btn-primary{ animation:none; } }
+  .btn-ghost{ background: rgba(248,250,237,0.5); color: var(--quincy); border:1px solid rgba(122,44,41,0.25); backdrop-filter:blur(10px); }
+
+  .scroll-cue{
+    position:absolute; bottom:34px; left:50%; transform:translateX(-50%); z-index:5;
+    display:flex; flex-direction:column; align-items:center; gap:8px; color: var(--quincy); opacity:0.6;
+  }
+  .scroll-cue .line{ width:1px; height:34px; background: linear-gradient(var(--quincy), transparent); animation: pulse-line 1.8s ease-in-out infinite; }
+  @keyframes pulse-line{ 0%,100%{opacity:0.3;} 50%{opacity:1;} }
+
+  /* ============ BENTO GRID ============ */
+  .bento{ display:grid; grid-template-columns: repeat(12, 1fr); gap:var(--sp-3); }
+  @media(max-width:820px){ .bento{ grid-template-columns: repeat(4,1fr); } }
+
+  /* ============ COUNTDOWN ============ */
+  #countdown{ padding-top: var(--sp-12); }
+  .countdown-card{
+    grid-column: span 12; padding: var(--sp-6) var(--sp-6);
+    background: linear-gradient(160deg, rgba(248,250,237,0.7), rgba(243,225,221,0.5));
+    text-align:center; position:relative; overflow:hidden;
+  }
+  .countdown-card::before{
+    content:''; position:absolute; inset:0; opacity:0.5; pointer-events:none;
+    background: radial-gradient(circle at 15% 20%, rgba(169,27,24,0.06), transparent 40%);
+  }
+  .countdown-label{ font-size:12px; margin-bottom:20px; }
+  .countdown-grid{ display:flex; justify-content:center; gap: clamp(14px,4vw,40px); flex-wrap:wrap; }
+  .countdown-unit{ display:flex; flex-direction:column; align-items:center; min-width:80px; }
+  .digit-flip-wrap{ perspective:400px; }
+  .countdown-digits{
+    font-family:'Fraunces',serif; font-weight:800; font-size: clamp(40px,8vw,74px);
+    color: var(--falu); line-height:1; display:inline-block;
+    text-shadow: 0 4px 24px rgba(169,27,24,0.25);
+  }
+  .countdown-digits.flip{ animation: digit-flip .4s ease; }
+  @keyframes digit-flip{ 0%{ transform:rotateX(75deg); opacity:0.3;} 100%{ transform:rotateX(0deg); opacity:1;} }
+  .countdown-unit .unit-label{
+    margin-top:8px; font-size:11px; text-transform:uppercase; letter-spacing:0.14em; color:var(--quincy); opacity:0.7;
+  }
+
+  /* ============ COMMITTEES ============ */
+  .committee-card{
+    grid-column: span 4; min-height:210px; cursor:pointer;
+    display:flex; flex-direction:column;
+    transition: transform .3s var(--ease), box-shadow .3s ease, background .3s ease;
+    position:relative;
+    overflow: hidden;
+  }
+  .committee-card:hover{ transform: translateY(-6px); box-shadow: 0 24px 50px rgba(110,18,15,0.14); }
+  .committee-card:focus-visible{ outline:2px solid var(--falu); outline-offset:3px; }
+  .card-img-wrap {
+    width: 100%; height: 160px;
+    position: relative; overflow: hidden;
+    border-radius: var(--radius-card) var(--radius-card) 0 0;
+  }
+  .card-img-wrap img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.6s var(--ease);
+  }
+  .committee-card:hover .card-img-wrap img {
+    transform: scale(1.06);
+  }
+  .duotone-overlay {
+    position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(135deg, var(--quincy), var(--dark-vanilla));
+    mix-blend-mode: multiply;
+  }
+  .card-img-wrap .scrim {
+    position: absolute; left: 0; right: 0; bottom: 0; height: 60px;
+    background: linear-gradient(to bottom, transparent, rgba(24,23,23,0.55));
+    pointer-events: none;
+  }
+  .committee-card .card-content-wrap {
+    padding: var(--sp-3);
+    display: flex; flex-direction: column; justify-content: space-between;
+    flex: 1;
+  }
+  .committee-card .acronym{ font-size:26px; }
+  .committee-card .topic-preview{ margin-top:10px; font-size:13px; color: var(--quincy); opacity:0.8; line-height:1.5;
+    display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;
+  }
+  .committee-card .card-foot{ margin-top:14px; display:flex; align-items:center; justify-content:space-between; }
+  .pill-badge{
+    font-size:10.5px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;
+    background: var(--pale-blue); color: var(--phil-brown); padding:4px 10px; border-radius:var(--radius-pill);
+  }
+  .read-more{ font-size:12px; color: var(--falu); font-weight:600; }
+  @media(max-width:820px){ .committee-card{ grid-column: span 4; } }
+
+  .committee-card.tba{
+    background: rgba(243,225,221,0.25); border:1px dashed rgba(122,44,41,0.4);
+    cursor:default; box-shadow:none;
+  }
+  .committee-card.tba:hover{ transform:none; box-shadow:none; }
+  .committee-card.tba .acronym{ font-style:italic; opacity:0.55; }
+  .committee-card.tba .topic-preview{ font-style:italic; opacity:0.55; }
+  .tba-pulse{
+    font-size:10.5px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;
+    color: var(--quincy); opacity:0.7; display:inline-flex; align-items:center; gap:6px;
+  }
+  .tba-pulse .dot{ width:6px; height:6px; border-radius:50%; background: var(--falu); animation: pulse-dot 1.6s ease-in-out infinite; }
+  @keyframes pulse-dot{ 0%,100%{ opacity:0.3; } 50%{ opacity:1; } }
+
+  /* modal */
+  #committee-modal{
+    position:fixed; inset:0; z-index:80; display:none; align-items:center; justify-content:center;
+    padding:24px;
+  }
+  #committee-modal.open{ display:flex; }
+  #committee-modal .modal-scrim{
+    position:absolute; inset:0; background: rgba(24,23,23,0.45); backdrop-filter: blur(4px);
+  }
+  #committee-modal .modal-panel{
+    position:relative; z-index:2; max-width:520px; width:100%; padding: var(--sp-4);
+    background: rgba(248,250,237,0.96); border-radius: var(--radius-hero);
+    box-shadow: 0 30px 80px rgba(24,23,23,0.35);
+    animation: modal-in .35s var(--ease);
+  }
+  @keyframes modal-in{ from{opacity:0; transform:translateY(16px) scale(0.98);} to{opacity:1; transform:translateY(0) scale(1);} }
+  #committee-modal .modal-close{
+    position:absolute; top:16px; right:16px; background:none; border:none; cursor:pointer; color:var(--quincy);
+    width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+  }
+  #committee-modal .modal-close:hover{ background: rgba(122,44,41,0.1); }
+  #committee-modal .modal-panel h3{ font-size:28px; padding-right:30px; }
+  #committee-modal .modal-panel p{ margin-top:14px; color: var(--quincy); line-height:1.65; font-size:15px; }
+
+  /* ============ SECRETARIAT MARQUEE ============ */
+  #secretariat{ overflow:hidden; }
+  .marquee-viewport{ overflow:hidden; position:relative; padding:110px 0 100px; }
+  .marquee-viewport::before, .marquee-viewport::after{
+    content:''; position:absolute; top:0; bottom:0; width:80px; z-index:3; pointer-events:none;
+  }
+  .marquee-viewport::before{ left:0; background: linear-gradient(90deg, var(--dark-vanilla), transparent); }
+  .marquee-viewport::after{ right:0; background: linear-gradient(270deg, var(--dark-vanilla), transparent); }
+  .marquee-lift{
+    width:max-content;
+    transition: transform .5s var(--ease);
+  }
+  .marquee-lift.is-risen{ transform: translateY(-26px); }
+  .marquee-lift.is-bobbing{ animation: bar-bob 2.6s ease-in-out infinite; }
+  @keyframes bar-bob{
+    0%,100%{ transform: translateY(-26px); }
+    50%{ transform: translateY(-34px); }
+  }
+  .marquee-track{
+    display:flex; gap:20px; width:max-content;
+    animation: marquee-scroll 52s linear infinite;
+  }
+  .marquee-track:hover, .marquee-track:focus-within{ animation-play-state: paused; }
+  @keyframes marquee-scroll{ from{ transform:translateX(0);} to{ transform: translateX(-50%);} }
+  .sec-card{
+    width:150px; flex-shrink:0; padding:18px 14px; text-align:center;
+    transition: transform .45s var(--ease), box-shadow .45s ease, filter .45s ease;
+    position:relative; transform-origin:center bottom;
+  }
+  .sec-card::before{
+    content:''; position:absolute; left:50%; bottom:-6px; width:64%; height:46px;
+    transform: translateX(-50%) scaleY(0); transform-origin:bottom; opacity:0;
+    background: linear-gradient(to top, rgba(169,27,24,0.4), rgba(169,27,24,0.06) 70%, transparent);
+    clip-path: polygon(32% 100%, 68% 100%, 100% 0%, 0% 0%);
+    transition: transform .45s var(--ease), opacity .45s ease;
+    pointer-events:none; z-index:-1;
+  }
+  .sec-card::after{
+    content:''; position:absolute; inset:0; border-radius:inherit; pointer-events:none; opacity:0;
+    background: repeating-linear-gradient(0deg, rgba(248,250,237,0.16) 0px, rgba(248,250,237,0.16) 1px, transparent 2px, transparent 4px);
+    mix-blend-mode:overlay; transition: opacity .3s ease;
+  }
+  .sec-card:hover, .sec-card:focus-visible{
+    transform: translateY(-38px) scale(1.2); z-index:10;
+    box-shadow: 0 0 46px rgba(169,27,24,0.35), 0 30px 60px rgba(110,18,15,0.25);
+    filter: brightness(1.05) saturate(1.1);
+    animation: holo-flicker 2.4s ease-in-out .5s infinite;
+  }
+  .sec-card:hover::before, .sec-card:focus-visible::before{
+    opacity:1; transform: translateX(-50%) scaleY(1);
+  }
+  .sec-card:hover::after, .sec-card:focus-visible::after{ opacity:0.55; }
+  @keyframes holo-flicker{
+    0%,100%{ opacity:1; } 48%{ opacity:1; } 50%{ opacity:0.86; } 52%{ opacity:1; } 79%{ opacity:0.94; } 81%{ opacity:1; }
+  }
+  .sec-card .avatar{
+    width:64px; height:64px; border-radius:50%; margin:0 auto 12px;
+    background: var(--pale-blue);
+    display:flex; align-items:center; justify-content:center;
+    color: var(--quincy); font-family:'Fraunces',serif; font-weight:700; font-size:24px;
+    position:relative; z-index:1;
+    overflow: hidden;
+  }
+  .sec-card .avatar img {
+    width: 100%; height: 100%; object-fit: cover;
+  }
+  .sec-card .avatar .duotone-overlay {
+    position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(135deg, var(--quincy), var(--dark-vanilla));
+    mix-blend-mode: multiply;
+  }
+  .sec-card .name, .sec-card .role, .sec-card .photo-note{ position:relative; z-index:1; }
+  .sec-card .name{ font-size:13px; font-weight:600; color: var(--quincy); }
+  .sec-card .role{ font-size:11px; color: var(--quincy); opacity:0.65; margin-top:2px; }
+  .sec-card .photo-note{ font-size:9px; color: var(--quincy); opacity:0.45; margin-top:6px; }
+  .sec-card .detail-panel{
+    position:absolute; top:100%; left:50%; transform:translateX(-50%) translateY(4px);
+    width:180px; margin-top:6px; padding:12px; text-align:left; opacity:0; pointer-events:none;
+    transition: opacity .25s ease, transform .25s ease; z-index:20;
+  }
+  .sec-card:hover .detail-panel, .sec-card:focus-visible .detail-panel{
+    opacity:1; transform:translateX(-50%) translateY(0); pointer-events:auto;
+  }
+  .detail-panel .name{ font-size:12px; }
+  .detail-panel .bio{ font-size:10.5px; opacity:0.7; margin-top:6px; line-height:1.4; }
+  .sr-only-list{
+    position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden;
+    clip:rect(0,0,0,0); white-space:nowrap; border:0;
+  }
+
+  /* ============ HISTORY ============ */
+  .history-summary{ grid-column: span 12; padding: var(--sp-4); }
+  .history-summary p{ font-size:15px; line-height:1.75; color: var(--quincy); }
+  .timeline{ grid-column: span 12; margin-top: var(--sp-4); display:flex; flex-direction:column; gap:14px; }
+  .timeline-node{
+    padding: var(--sp-3); cursor:pointer; transition: background .25s ease;
+  }
+  .timeline-node .tl-head{ display:flex; align-items:center; justify-content:space-between; gap:16px; }
+  .timeline-node .tl-title{ font-size:18px; }
+  .timeline-node .tl-caption{ font-size:12.5px; color: var(--quincy); opacity:0.7; font-style:italic; margin-top:4px; }
+  .timeline-node .chevron{ flex-shrink:0; transition: transform .3s ease; color: var(--falu); }
+  .timeline-node.expanded .chevron{ transform: rotate(180deg); }
+  .tl-body{ max-height:0; overflow:hidden; transition: max-height .4s var(--ease), margin-top .4s var(--ease); }
+  .timeline-node.expanded .tl-body{ max-height:200px; margin-top:14px; }
+  .tl-body p{ font-size:14px; line-height:1.65; color: var(--quincy); opacity:0.9; }
+
+  /* ============ SPONSORS / CONTACT / FOOTER ============ */
+  #sponsors{ padding-bottom: var(--sp-8); }
+  .sponsor-row{ grid-column: span 12; display:flex; gap:16px; flex-wrap:wrap; justify-content:center; }
+  .sponsor-slot{
+    width:150px; height:90px; display:flex; align-items:center; justify-content:center;
+    font-size:11px; color: var(--quincy); opacity:0.55; text-transform:uppercase; letter-spacing:0.06em;
+  }
+  .contact-card{ grid-column: span 12; padding: var(--sp-4); text-align:center; }
+  .contact-card h2{ font-size:30px; }
+  .contact-card p{ margin-top:10px; color: var(--quincy); opacity:0.85; }
+  .contact-card .btn{ margin-top:22px; }
+
+  footer{
+    background: var(--quincy); color: var(--warm-white); padding: var(--sp-6);
+    text-align:center; font-size:12.5px;
+  }
+  footer .foot-mark{ font-family:'Fraunces',serif; font-weight:800; font-size:20px; margin-bottom:10px; }
+  footer .foot-note{ opacity:0.55; margin-top:14px; }
+
+  .skip-link{
+    position:absolute; left:-999px; top:0; background: var(--falu); color:#fff; padding:10px 16px; z-index:200;
+    border-radius:0 0 8px 0;
+  }
+  .skip-link:focus{ left:0; }
+
+  #mood-layer-a, #mood-layer-b{
+    position:fixed; inset:0; z-index:-2;
+    transition: opacity 1.4s ease;
+  }
+  #mood-layer-a{ background: linear-gradient(180deg, var(--dark-vanilla) 0%, #E5C2BE 100%); opacity:1; }
+  #mood-layer-b{ background: linear-gradient(180deg, var(--dark-vanilla) 0%, #E5C2BE 100%); opacity:0; }
+
+  #hero-cinema-wrap{ position:relative; height:280vh; }
+  #hero{ position:sticky; top:0; height:100vh; min-height:100vh; }
+  #hero-canvas{ will-change: filter, transform; }
+  .hero-content, .scroll-cue{ will-change: opacity, transform; }
+
+  .reveal{
+    opacity:0; transform: translateY(28px);
+    clip-path: inset(0 0 18% 0);
+    transition: opacity .9s var(--ease), transform .9s var(--ease), clip-path .9s var(--ease);
+  }
+  .reveal.in-view{ opacity:1; transform: translateY(0); clip-path: inset(0 0 0% 0); }
+
+  /* ============ ADVANCED INTERACTIVE TABS & GAMIFIED PORTAL ============ */
+  .register-card{ grid-column: span 12; padding: 0; overflow: hidden; border: 2px solid var(--quincy); }
+  
+  .portal-tabs {
+    display: flex;
+    background: rgba(122, 44, 41, 0.08);
+    border-bottom: 2px solid rgba(122, 44, 41, 0.2);
+  }
+  
+  .portal-tab-btn {
+    flex: 1;
+    padding: 16px;
+    background: transparent;
+    border: none;
+    font-family: 'Fraunces', serif;
+    font-size: clamp(13px, 2.5vw, 16px);
+    font-weight: 700;
+    color: var(--quincy);
+    opacity: 0.6;
+    cursor: pointer;
+    transition: all 0.3s var(--ease);
+    outline: none;
+    text-align: center;
+  }
+  
+  .portal-tab-btn:not(:last-child) {
+    border-right: 1px solid rgba(122, 44, 41, 0.15);
+  }
+  
+  .portal-tab-btn.active {
+    opacity: 1;
+    background: rgba(248, 250, 237, 0.8);
+    color: var(--falu);
+    box-shadow: inset 0 -3px 0 var(--falu);
+  }
+  
+  .portal-pane {
+    display: none;
+    padding: var(--sp-6);
+    animation: paneFadeIn 0.5s var(--ease) forwards;
+  }
+  
+  .portal-pane.active { display: block; }
+  
+  @keyframes paneFadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Perks and Terms grids */
+  .perks-dashboard, .terms-dashboard {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-4);
+  }
+  @media(max-width: 768px){ 
+    .perks-dashboard, .terms-dashboard { grid-template-columns: 1fr; } 
+  }
+
+  .perk-info-card, .term-info-card {
+    background: rgba(248, 250, 237, 0.5);
+    border: 1px solid rgba(122, 44, 41, 0.15);
+    padding: var(--sp-3);
+    border-radius: 12px;
+  }
+  .perk-info-card h3, .term-info-card h3 {
+    font-size: 16px;
+    color: var(--falu);
+    margin-bottom: 6px;
+  }
+  .perk-info-card p, .term-info-card p {
+    font-size: 13.5px;
+    color: var(--quincy);
+    line-height: 1.5;
+  }
+
+  /* Multi-step pipeline styling */
+  .gamified-pipeline {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .pipeline-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--sp-4);
+  }
+
+  .pipeline-progress-container {
+    height: 6px;
+    background: rgba(122, 44, 41, 0.1);
+    border-radius: var(--radius-pill);
+    margin-bottom: var(--sp-6);
+    overflow: hidden;
+  }
+
+  .pipeline-progress-fill {
+    height: 100%;
+    width: 33.33%;
+    background: var(--falu);
+    transition: width 0.4s cubic-bezier(.19,1,.22,1);
+  }
+
+  .pipeline-step { display: none; }
+  .pipeline-step.active { display: block; }
+
+  .step-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: var(--sp-4);
+    gap: 12px;
+  }
+  
+  .step-actions .btn {
+    flex: 1;
+    justify-content: center;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important; }
+    #hero-cinema-wrap{ height:auto; }
+    #hero{ position:relative; }
+    .reveal{ opacity:1; transform:none; clip-path:none; }
+    .wordmark .word-mask, .letter-mask-heading .letter-mask { overflow: visible !important; }
+    .wordmark .word-inner, .letter-mask-heading .letter-inner { opacity: 1 !important; transform: none !important; filter: none !important; animation: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<a href="#hero" class="skip-link">Skip to content</a>
+
+<div id="mood-layer-a" aria-hidden="true"></div>
+<div id="mood-layer-b" aria-hidden="true"></div>
+
+<div id="grain-overlay" aria-hidden="true">
+  <svg xmlns="http://www.w3.org/2000/svg">
+    <filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch"/></filter>
+    <rect width="100%" height="100%" filter="url(#noiseFilter)"/>
+  </svg>
+</div>
+
+<div id="spotlight-cursor" aria-hidden="true"></div>
+
+<div id="intro-overlay">
+  <div class="curtain"></div>
+  <div style="position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;">
+    <div class="vmark">
+      <svg viewBox="0 0 120 120"><path d="M15 20 L60 100 L105 20 M40 20 L60 58 L80 20" /></svg>
+    </div>
+    <div class="intro-label">Vigilante&nbsp;MUN</div>
+  </div>
+  <button id="skip-intro" aria-label="Skip intro animation">Skip Intro</button>
+</div>
+
+<nav id="hud-nav">
+  <a class="logo-mark" href="#hero" aria-label="Vigilante MUN home">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 4 L12 20 L21 4 M8 4 L12 11.5 L16 4"/></svg>
+    VIGILANTE
+  </a>
+  <button id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+  </button>
+  <div class="nav-links" id="nav-links">
+    <a href="#countdown">Countdown</a>
+    <a href="#committees">Committees</a>
+    <a href="#registration">Registration</a>
+    <a href="#secretariat">Secretariat</a>
+    <a href="#history">History</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<main>
+  <div id="hero-cinema-wrap" data-mood="#F3E1DD">
+    <section id="hero">
+      <div class="hero-bg-photo" aria-hidden="true"></div>
+      <canvas id="hero-canvas"></canvas>
+      <div class="hero-content" id="hero-content">
+        <span class="eyebrow">Model United Nations · October 10–11</span>
+        <h1 class="wordmark" id="wordmark"></h1>
+        <span class="wordmark-underline"></span>
+        <p class="hero-tagline">A youth-led conference where deliberation meets discipline — gather in the chamber, sharpen your argument, and be heard.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="#registration">Secure clearance</a>
+          <a class="btn btn-ghost" href="#committees">View committees</a>
+        </div>
+      </div>
+      <div class="scroll-cue" id="scroll-cue" aria-hidden="true"><span class="line"></span><span style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;">Scroll to orbit</span></div>
+    </section>
+  </div>
+  
+  <section id="countdown" data-mood="#FAF3F1">
+    <div class="section-inner bento">
+      <div class="countdown-card glass reveal">
+        <span class="eyebrow countdown-label">Vigilante MUN — October 10–11</span>
+        <div class="countdown-grid" id="countdown-grid">
+          <div class="countdown-unit"><div class="digit-flip-wrap"><span class="countdown-digits" id="cd-days">00</span></div><span class="unit-label">Days</span></div>
+          <div class="countdown-unit"><div class="digit-flip-wrap"><span class="countdown-digits" id="cd-hours">00</span></div><span class="unit-label">Hours</span></div>
+          <div class="countdown-unit"><div class="digit-flip-wrap"><span class="countdown-digits" id="cd-mins">00</span></div><span class="unit-label">Minutes</span></div>
+          <div class="countdown-unit"><div class="digit-flip-wrap"><span class="countdown-digits" id="cd-secs">00</span></div><span class="unit-label">Seconds</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="committees" data-mood="#EFD0CC">
+    <div class="section-inner">
+      <div class="section-head reveal">
+        <span class="eyebrow">The Chambers</span>
+        <h2>Committees</h2>
+        <p>Six rooms, six modes of argument. Choose where your voice belongs — full topics open on tap.</p>
+      </div>
+      <div class="bento" id="committee-grid"></div>
+    </div>
+  </section>
+
+  <section id="registration" data-mood="#FAF3F1">
+    <div class="section-inner bento">
+      <div class="register-card glass reveal">
+        
+        <nav class="portal-tabs">
+          <button class="portal-tab-btn active" id="tab-btn-perks" onclick="switchPortalTab('perks')">Operative Perks</button>
+          <button class="portal-tab-btn" id="tab-btn-form" onclick="switchPortalTab('form')">Secure Clearance</button>
+          <button class="portal-tab-btn" id="tab-btn-terms" onclick="switchPortalTab('terms')">Rules of Engagement</button>
+        </nav>
+
+        <div class="portal-pane active" id="pane-perks">
+          <div class="section-head" style="margin-bottom: var(--sp-4);">
+            <span class="eyebrow">Inventory Allocation</span>
+            <h3>Delegate Provisions &amp; Assets</h3>
+            <p>Every dynamic asset secured upon immediate validation confirmation into the chambers.</p>
+          </div>
+          <div class="perks-dashboard">
+            <div class="perk-info-card">
+              <h3>Tactical Delegate Kit</h3>
+              <p>Receive full comprehensive physical guides, customized resource binders, and exclusive dossier materials prepared by the Dais.</p>
+            </div>
+            <div class="perk-info-card">
+              <h3>Certified Credentials</h3>
+              <p>Official physical accreditation and institutional certification signed by the Secretariat recognizing strategic diplomatic execution.</p>
+            </div>
+            <div class="perk-info-card">
+              <h3>Distinguished Accolades</h3>
+              <p>Eligibility pathways to specialized high-tier awards including Best Delegate, High Commendation, and Special Mention across panels.</p>
+            </div>
+            <div class="perk-info-card">
+              <div class="img-placeholder">Perks Interactive Showcase Graphic Placeholder</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="portal-pane" id="pane-form">
+          <div class="gamified-pipeline">
+            
+            <div class="pipeline-header">
+              <span class="eyebrow" id="pipeline-step-badge">Phase 01: Profile Setup</span>
+              <span style="font-size: 11px; font-weight: 600; color: var(--falu);" id="pipeline-step-fraction">1 / 3</span>
+            </div>
+
+            <div class="pipeline-progress-container">
+              <div class="pipeline-progress-fill" id="pipeline-progress"></div>
+            </div>
+
+            <form class="register-form" id="register-form" novalidate onsubmit="event.preventDefault();">
+              
+              <div class="pipeline-step active" id="p-step-1">
+                <div class="field-row">
+                  <div class="field">
+                    <label for="reg-name">Full Name / Codename</label>
+                    <input type="text" id="reg-name" name="name" placeholder="John Doe" required autocomplete="name" />
+                  </div>
+                  <div class="field">
+                    <label for="reg-email">Secure Comms (Email)</label>
+                    <input type="email" id="reg-email" name="email" placeholder="agent@domain.com" required autocomplete="email" />
+                  </div>
+                </div>
+                <div class="step-actions">
+                  <button type="button" class="btn btn-primary" onclick="navigatePipeline(2)">Continue to Allocation Preferences →</button>
+                </div>
+              </div>
+
+              <div class="pipeline-step" id="p-step-2">
+                <div class="field-row">
+                  <div class="field">
+                    <label for="reg-institution">Base Institution / School</label>
+                    <input type="text" id="reg-institution" name="institution" placeholder="University of Delhi" required autocomplete="organization" />
+                  </div>
+                  <div class="field">
+                    <label for="reg-committee">Target Chamber Assignment</label>
+                    <select id="reg-committee" name="committee" required>
+                      <option value="" disabled selected>Select a panel...</option>
+                      <option>UNGA</option>
+                      <option>UNCSW — Beginner Committee</option>
+                      <option>AIPPM</option>
+                      <option>IPL</option>
+                      <option>International Press</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="field" style="margin-top: 14px;">
+                  <label for="reg-experience">Prior Operations Experience</label>
+                  <select id="reg-experience" name="experience" required>
+                    <option value="" disabled selected>Choose tier...</option>
+                    <option>First conference</option>
+                    <option>1–3 conferences</option>
+                    <option>4+ conferences</option>
+                  </select>
+                </div>
+                <div class="step-actions">
+                  <button type="button" class="btn btn-ghost" onclick="navigatePipeline(1)">← Back</button>
+                  <button type="button" class="btn btn-primary" onclick="navigatePipeline(3)">Review Operational Authorization →</button>
+                </div>
+              </div>
+
+              <div class="pipeline-step" id="p-step-3">
+                <div style="text-align: center; padding: var(--sp-2) 0;">
+                  <div style="font-size: 2.5rem; margin-bottom: var(--sp-1);">⚡</div>
+                  <h4>Data Synchronization Ready</h4>
+                  <p style="font-size: 13px; color: var(--quincy); margin-top: 6px; margin-bottom: 20px;">
+                    Your data profiles are parsed and clean. Confirm submission below to establish early priority status.
+                  </p>
+                </div>
+                <div class="step-actions">
+                  <button type="button" class="btn btn-ghost" onclick="navigatePipeline(2)">← Edit Metrics</button>
+                  <button type="button" class="btn btn-primary" onclick="submitPipelineForm()">Authorize Submission</button>
+                </div>
+              </div>
+
+              <span class="form-note" style="display:block; text-align:center; margin-top: var(--sp-3);">
+                Submitting establishes direct line priority placement ahead of unrestricted floor drops.
+              </span>
+              
+              <div class="form-success" id="form-success" role="status">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                Identity uploaded successfully. Await tracking confirmation via your registered comms link.
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="portal-pane" id="pane-terms">
+          <div class="section-head" style="margin-bottom: var(--sp-4);">
+            <span class="eyebrow">Codex Legalities</span>
+            <h3>Rules of Engagement</h3>
+            <p>Read all mandatory constraints carefully before establishing binding compliance signatures.</p>
+          </div>
+          <div class="terms-dashboard">
+            <div class="term-info-card">
+              <h3>1. Floor Decorum Integrity</h3>
+              <p>Plagiarism, pre-written resolutions, or unvouched research material triggers immediate review and automatic disqualification loops.</p>
+            </div>
+            <div class="term-info-card">
+              <h3>2. Attendance Criteria Matrix</h3>
+              <p>Missing more than one operational chamber session without direct priority medical clearance rescinds eligibility for awards and certifications.</p>
+            </div>
+            <div class="term-info-card">
+              <h3>3. Financial Retention Protocol</h3>
+              <p>Confirmed allocation cancellations processed inside a window of 14 days preceding October 10 are completely non-refundable.</p>
+            </div>
+            <div class="term-info-card">
+              <div class="img-placeholder">Regulatory Codex Sign-off Graphic Placeholder</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="secretariat" data-mood="#F3E1DD">
+    <div class="section-inner">
+      <div class="section-head reveal">
+        <span class="eyebrow">Behind the Gavel</span>
+        <h2>Secretariat</h2>
+        <p>The team running the room. Hover or focus a card to meet them.</p>
+      </div>
+    </div>
+    <div class="marquee-viewport">
+      <div class="marquee-lift" id="marquee-lift">
+        <div class="marquee-track" id="marquee-track"></div>
+      </div>
+    </div>
+    <ul class="sr-only-list" id="sr-secretariat-list"></ul>
+  </section>
+
+  <section id="history" data-mood="#E8C0BC">
+    <div class="section-inner">
+      <div class="section-head reveal">
+        <span class="eyebrow">Where We've Stood</span>
+        <h2>History</h2>
+      </div>
+      <div class="bento">
+        <div class="history-summary glass reveal">
+          <p>The Vigilante MUN is a youth-led, impact-driven organisation committed to creating platforms that blend academic excellence, leadership development, and social responsibility. Over the years, Vigilante has emerged as a trusted name in large-scale student conferences, public audience events, and structured training programmes, working closely with reputed educational institutions, university administrations, and public figures. With experience spanning on-ground events, online conferences, social impact campaigns, and mass-audience management, Vigilante has consistently delivered initiatives marked by professionalism, scale, and purpose.</p>
+        </div>
+        <div class="timeline" id="timeline"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="sponsors" data-mood="#F8FAED">
+    <div class="section-inner">
+      <div class="section-head reveal" style="margin:0 auto var(--sp-4);text-align:center;max-width:100%;">
+        <span class="eyebrow">Standing With Us</span>
+        <h2>Sponsors &amp; Partners</h2>
+      </div>
+      <div class="bento">
+        <div class="sponsor-row glass reveal" style="padding:var(--sp-3);">
+          <div class="sponsor-slot glass">Partner slot</div>
+          <div class="sponsor-slot glass">Partner slot</div>
+          <div class="sponsor-slot glass">Partner slot</div>
+          <div class="sponsor-slot glass">Partner slot</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" data-mood="#FAF3F1">
+    <div class="section-inner bento">
+      <div class="contact-card glass reveal">
+        <h2>Ready to take the floor?</h2>
+        <p>Registration opens soon. Follow along so you don't miss your seat.</p>
+        <a class="btn btn-primary" href="#registration">Get notified</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="foot-mark">VIGILANTE MUN</div>
+  <div>October 10–11 · New Delhi</div>
+  <div class="foot-note">© <span id="year"></span> Vigilante MUN. All rights reserved.</div>
+</footer>
+
+<div id="committee-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal-scrim" data-close></div>
+  <div class="modal-panel">
+    <button class="modal-close" data-close aria-label="Close">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <h3 id="modal-title"></h3>
+    <p id="modal-body"></p>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const isTouch = window.matchMedia('(hover: none)').matches;
+
+/* ============ INTERACTIVE PORTAL LINKAGE CONTROLS ============ */
+function switchPortalTab(targetPane) {
+  document.querySelectorAll('.portal-pane').forEach(pane => pane.classList.remove('active'));
+  document.querySelectorAll('.portal-tab-btn').forEach(btn => btn.classList.remove('active'));
+  
+  document.getElementById('pane-' + targetPane).classList.add('active');
+  document.getElementById('tab-btn-' + targetPane).classList.add('active');
+}
+
+function navigatePipeline(stepNumber) {
+  const form = document.getElementById('register-form');
+  
+  // Validation guard check on moving forward from Step 1 or 2
+  if (stepNumber > 1) {
+    const currentActiveStep = document.querySelector('.pipeline-step.active');
+    const inputs = currentActiveStep.querySelectorAll('input, select');
+    let valid = true;
+    inputs.forEach(input => {
+      if(!input.checkValidity()) {
+        input.reportValidity();
+        valid = false;
+      }
+    });
+    if(!valid) return;
+  }
+
+  document.querySelectorAll('.pipeline-step').forEach(step => step.classList.remove('active'));
+  document.getElementById('p-step-' + stepNumber).classList.add('active');
+  
+  const progressFill = document.getElementById('pipeline-progress');
+  const badge = document.getElementById('pipeline-step-badge');
+  const fraction = document.getElementById('pipeline-step-fraction');
+  
+  if (stepNumber === 1) {
+    progressFill.style.width = '33.33%';
+    badge.textContent = 'Phase 01: Profile Setup';
+    fraction.textContent = '1 / 3';
+  } else if (stepNumber === 2) {
+    progressFill.style.width = '66.66%';
+    badge.textContent = 'Phase 02: Routing Allocation';
+    fraction.textContent = '2 / 3';
+  } else if (stepNumber === 3) {
+    progressFill.style.width = '100%';
+    badge.textContent = 'Phase 03: Final Authorization';
+    fraction.textContent = '3 / 3';
+  }
+}
+
+function submitPipelineForm() {
+  const form = document.getElementById('register-form');
+  const success = document.getElementById('form-success');
+  
+  success.classList.add('visible');
+  const submitBtn = document.querySelector('#p-step-3 .btn-primary');
+  if(submitBtn) {
+    submitBtn.textContent = 'Seat Reserved';
+    submitBtn.disabled = true;
+  }
+  form.querySelectorAll('input, select, button').forEach(el => el.disabled = true);
+}
+
+/* ============ WORDMARK WORD-MASK SPANS ============ */
+(function(){
+  const wordLines = [
+    ["VIGILANTE"],
+    ["MUN"]
+  ];
+  const wm = document.getElementById('wordmark');
+  if (!wm) return;
+  wm.innerHTML = '';
+  
+  let wordIndex = 0;
+  wordLines.forEach((lineWords, lineIdx) => {
+    const lineEl = document.createElement('span');
+    lineEl.className = 'wordmark-line' + (lineIdx === 1 ? ' line-mun' : '');
+
+    lineWords.forEach((wordText, wIdx) => {
+      const mask = document.createElement('span');
+      mask.className = 'word-mask';
+      mask.style.overflow = 'hidden';
+      mask.style.display = 'inline-block';
+      mask.style.verticalAlign = 'bottom';
+
+      const inner = document.createElement('span');
+      inner.className = 'word-inner';
+      inner.style.display = 'inline-block';
+      inner.style.animationDelay = (wordIndex * 0.1).toFixed(2) + 's';
+      inner.textContent = wordText;
+
+      mask.appendChild(inner);
+      lineEl.appendChild(mask);
+
+      if (wIdx < lineWords.length - 1) {
+        lineEl.appendChild(document.createTextNode(' '));
+      }
+      wordIndex++;
+    });
+
+    wm.appendChild(lineEl);
+  });
+
+  function checkOverlayAndReveal() {
+    const overlay = document.getElementById('intro-overlay');
+    if (!overlay || overlay.classList.contains('opened')) {
+      wm.classList.add('revealed');
+      return true;
+    }
+    return false;
+  }
+
+  if (!checkOverlayAndReveal()) {
+    const overlay = document.getElementById('intro-overlay');
+    if (overlay) {
+      const observer = new MutationObserver(() => {
+        if (checkOverlayAndReveal()) observer.disconnect();
+      });
+      observer.observe(overlay, { attributes: true, attributeFilter: ['class'] });
+    }
+  }
+})();
+
+/* ============ HEADING LETTER-MASK REVEAL ============ */
+(function initLetterMaskHeadings() {
+  const headings = document.querySelectorAll('#committees h2, #registration h2, #registration h3, #secretariat h2, #history h2, #sponsors h2, .section-head h2');
+  headings.forEach(h2 => {
+    if (h2.dataset.letterMasked) return;
+    h2.dataset.letterMasked = "true";
+    h2.classList.add('letter-mask-heading');
+
+    let letterIdx = 0;
+    const processChild = (node) => {
+      if (node.nodeType === Node.TEXT_NODE) {
+        const text = node.textContent;
+        const frag = document.createDocumentFragment();
+        const parts = text.split(/(\s+)/);
+        parts.forEach(part => {
+          if (!part) return;
+          if (/^\s+$/.test(part)) {
+            const spaceSpan = document.createElement('span');
+            spaceSpan.textContent = part;
+            frag.appendChild(spaceSpan);
+          } else {
+            const wordSpan = document.createElement('span');
+            wordSpan.className = 'word-wrapper';
+            wordSpan.style.display = 'inline-block';
+            wordSpan.style.whiteSpace = 'nowrap';
+            [...part].forEach(ch => {
+              const mask = document.createElement('span');
+              mask.className = 'letter-mask';
+              mask.style.overflow = 'hidden';
+              mask.style.display = 'inline-block';
+              mask.style.verticalAlign = 'bottom';
+
+              const inner = document.createElement('span');
+              inner.className = 'letter-inner';
+              inner.style.display = 'inline-block';
+              inner.style.animationDelay = (letterIdx * 0.09).toFixed(2) + 's';
+              inner.textContent = ch;
+
+              mask.appendChild(inner);
+              wordSpan.appendChild(mask);
+              letterIdx++;
+            });
+            frag.appendChild(wordSpan);
+          }
+        });
+        return frag;
+      } else if (node.nodeType === Node.ELEMENT_NODE) {
+        if (node.tagName.toLowerCase() === 'br') {
+          return node.cloneNode(true);
+        }
+        const clone = node.cloneNode(false);
+        Array.from(node.childNodes).forEach(child => {
+          const processed = processChild(child);
+          if (processed) clone.appendChild(processed);
+        });
+        return clone;
+      }
+      return node.cloneNode(true);
+    };
+
+    const newFragment = document.createDocumentFragment();
+    Array.from(h2.childNodes).forEach(child => {
+      const p = processChild(child);
+      if (p) newFragment.appendChild(p);
+    });
+    h2.innerHTML = '';
+    h2.appendChild(newFragment);
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          h2.classList.add('revealed');
+          observer.disconnect();
+        }
+      });
+    }, { threshold: 0.15 });
+    observer.observe(h2);
+  });
+})();
+
+/* ============ INTRO SEQUENCE ============ */
+(function(){
+  const overlay = document.getElementById('intro-overlay');
+  const skipBtn = document.getElementById('skip-intro');
+  document.body.style.overflow = 'hidden';
+
+  function openCurtain(){
+    if(overlay.classList.contains('opened')) return;
+    overlay.classList.add('opened');
+    document.body.style.overflow = '';
+    document.body.style.cursor = '';
+  }
+
+  if(reduceMotion){
+    openCurtain();
+  } else {
+    setTimeout(()=> skipBtn.classList.add('visible'), 500);
+    skipBtn.addEventListener('click', openCurtain);
+    setTimeout(openCurtain, 2400);
+  }
+})();
+
+/* ============ NAV ============ */
+(function(){
+  const nav = document.getElementById('hud-nav');
+  const toggle = document.getElementById('nav-toggle');
+  const links = document.getElementById('nav-links');
+  toggle.addEventListener('click', ()=>{
+    const open = links.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', open);
+  });
+  links.querySelectorAll('a').forEach(a=> a.addEventListener('click', ()=>{
+    links.classList.remove('open'); toggle.setAttribute('aria-expanded','false');
+  }));
+  if(!isTouch && !reduceMotion){
+    window.addEventListener('mousemove', (e)=>{
+      const tiltX = ((e.clientY / window.innerHeight) - 0.5) * -4;
+      const tiltY = ((e.clientX / window.innerWidth) - 0.5) * 4;
+      nav.style.transform = `translateX(-50%) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+    });
+  }
+})();
+
+/* ============ SPOTLIGHT CURSOR ============ */
+if(!isTouch && !reduceMotion){
+  const cur = document.getElementById('spotlight-cursor');
+  window.addEventListener('mousemove', (e)=>{
+    cur.style.opacity = '1';
+    cur.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%,-50%)`;
+  });
+  window.addEventListener('mouseleave', ()=> cur.style.opacity = '0');
+}
+
+/* ============ COUNTDOWN ============ */
+(function(){
+  function getTarget(){
+    const now = new Date();
+    let year = now.getUTCFullYear();
+    let target = new Date(Date.UTC(year, 9, 9, 18, 30, 0));
+    if(target.getTime() < now.getTime()){
+      target = new Date(Date.UTC(year+1, 9, 9, 18, 30, 0));
+    }
+    return target;
+  }
+  const target = getTarget();
+  const els = {
+    d: document.getElementById('cd-days'),
+    h: document.getElementById('cd-hours'),
+    m: document.getElementById('cd-mins'),
+    s: document.getElementById('cd-secs'),
+  };
+  let prev = {d:null,h:null,m:null,s:null};
+
+  function setVal(el, val, key){
+    const str = String(val).padStart(2,'0');
+    if(prev[key] !== str){
+      el.textContent = str;
+      if(!reduceMotion){
+        el.classList.remove('flip'); void el.offsetWidth; el.classList.add('flip');
+      }
+      prev[key] = str;
+    }
+  }
+
+  function tick(){
+    const now = new Date();
+    let diff = Math.max(0, target - now);
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor((diff % 86400000) / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    setVal(els.d, d, 'd'); setVal(els.h, h, 'h'); setVal(els.m, m, 'm'); setVal(els.s, s, 's');
+  }
+  tick();
+  setInterval(tick, 1000);
+})();
+
+/* ============ COMMITTEES DATA ============ */
+(function(){
+  const committees = [
+    { code:'UNGA', name:'General Assembly', topic:'Deliberation on the International Governance of Strategic Chokepoints and Maritime Trade Routes', img:'https://images.unsplash.com/photo-1529107328405-f938923a1a4f?auto=format&fit=crop&q=80&w=800', emblem:'/emblems/unga.svg' },
+    { code:'UNCSW', name:'Commission on the Status of Women', badge:'Beginner Committee', topic:'Protecting the rights and safety of sex workers and survivors of forced pregnancies with special emphasis on legal reforms and social protection measures', img:'https://images.unsplash.com/photo-1573164574572-cb89e39749b4?auto=format&fit=crop&q=80&w=800', emblem:'/emblems/uncsw.svg' },
+    { code:'AIPPM', name:"All India Party People's Meet", topic:'Deliberation upon anti-defection law - 10th schedule of the Indian Constitution with special emphasis on its impact on electoral integrity', img:'https://images.unsplash.com/photo-1555597673-b21d5c935865?auto=format&fit=crop&q=80&w=800', emblem:'/emblems/aippm.svg' },
+    { code:'IPL', name:'IPL Auction Council', topic:'Strategic Player Auctions, Franchise Management, and Financial Allocation Strategies', img:'https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&q=80&w=800', emblem:'/emblems/ipl.svg' },
+    { code:'IP', name:'International Press', topic:'Focus areas: Photography, Videography (reel making, edits), Journalism', img:'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=80&w=800', emblem:'/emblems/ip.svg' },
+    { code:'UNHRC', name:'UN Human Rights Council', topic:'Addressing systemic human rights protections in conflict zones and digital surveillance frameworks', img:'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=800', emblem:'/emblems/unhrc.svg' },
+    { code:'UNSC', name:'UN Security Council', topic:'Evaluating non-proliferation protocols and international peacekeeping mandates in high-tension theaters', img:'https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&q=80&w=800', emblem:'/emblems/unsc.svg' },
+  ];
+  const grid = document.getElementById('committee-grid');
+
+  committees.forEach((c, idx)=>{
+    const card = document.createElement('div');
+    card.className='committee-card glass reveal';
+    card.style.transitionDelay = (idx*0.06) + 's';
+    card.tabIndex = 0;
+    card.setAttribute('role','button');
+    card.setAttribute('aria-haspopup','dialog');
+    card.dataset.title = c.code + (c.name ? ' — ' + c.name : '');
+    card.dataset.body = c.topic;
+    card.innerHTML = `
+      <div class="card-img-wrap">
+        <img class="card-bg-photo" src="${c.img}" alt="${c.code} image" loading="lazy" />
+        <div class="duotone-overlay"></div>
+        <div class="scrim"></div>
+        <div class="emblem-overlay-wrap">
+          <img src="${c.emblem}" alt="${c.code} emblem" class="emblem-img" />
+        </div>
+      </div>
+      <div class="card-content-wrap">
+        <div>
+          <div class="acronym-row">
+            <span class="acronym">${c.code}</span>
+          </div>
+          <div class="topic-preview">${c.topic}</div>
+        </div>
+        <div class="card-foot">
+          ${c.badge ? `<span class="pill-badge">${c.badge}</span>` : `<span></span>`}
+          <span class="read-more">Read full topic →</span>
+        </div>
+      </div>`;
+    card.addEventListener('click', ()=> openModal(card.dataset.title, card.dataset.body));
+    card.addEventListener('keydown', (e)=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openModal(card.dataset.title, card.dataset.body);} });
+    grid.appendChild(card);
+  });
+
+  const tbaCard = document.createElement('div');
+  tbaCard.className = 'committee-card glass reveal';
+  tbaCard.style.transitionDelay = (committees.length*0.06) + 's';
+  tbaCard.innerHTML = `
+    <div class="card-img-wrap">
+      <img class="card-bg-photo" src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&q=80&w=800" alt="Disneyverse Feud" loading="lazy" />
+      <div class="duotone-overlay"></div>
+      <div class="scrim"></div>
+      <div class="emblem-overlay-wrap">
+        <div class="emblem-fallback-monogram">DF</div>
+      </div>
+    </div>
+    <div class="card-content-wrap">
+      <div>
+        <div class="acronym-row">
+          <span class="acronym">Disneyverse Feud</span>
+        </div>
+        <div class="topic-preview">Details TBA — working name, unconfirmed crisis committee.</div>
+      </div>
+      <div class="card-foot">
+        <span class="tba-pulse"><span class="dot"></span>In discussion</span>
+        <span></span>
+      </div>
+  grid.appendChild(tbaCard);
+
+  const modal = document.getElementById('committee-modal');
+  const modalTitle = document.getElementById('modal-title');
+  const modalBody = document.getElementById('modal-body');
+  let lastFocused = null;
+
+  function openModal(title, body){
+    lastFocused = document.activeElement;
+    modalTitle.textContent = title;
+    modalBody.textContent = body;
+    modal.classList.add('open');
+    modal.querySelector('.modal-close').focus();
+  }
+  function closeModal(){
+    modal.classList.remove('open');
+    if(lastFocused) lastFocused.focus();
+  }
+  modal.querySelectorAll('[data-close]').forEach(el=> el.addEventListener('click', closeModal));
+  document.addEventListener('keydown', (e)=>{ if(e.key==='Escape' && modal.classList.contains('open')) closeModal(); });
+})();
+
+/* ============ SECRETARIAT MARQUEE ============ */
+(function(){
+  const baseRoster = [
+    { name: 'Aditya', role: 'Secretary-General', photo: 'aditya.jpeg' },
+    { name: 'Charvi', role: 'Deputy Secretary-General', photo: 'charvi.jpeg' },
+    { name: 'Himanshi', role: 'Director-General', photo: 'himanshi.jpeg' },
+    { name: 'Jaskeerat', role: 'USG Delegate Affairs', photo: 'jaskeerat.jpeg' },
+    { name: 'Kashvi', role: 'USG Logistics', photo: 'kashvi.jpeg' },
+    { name: 'Khushmeet', role: 'USG Press &amp; Media', photo: 'khushmeet.jpeg' },
+    { name: 'Naisha', role: 'USG Sponsorships', photo: 'naisha.jpeg' },
+    { name: 'Pranavi', role: 'USG Operations', photo: 'pranavi.jpeg' },
+    { name: 'Rhythm', role: 'Chef de Cabinet', photo: 'rhythm.jpeg' },
+    { name: 'Yuvraj', role: 'Under-Secretary General', photo: 'yuvraj.jpeg' },
+    { name: 'Name TBA', role: 'Executive Board Chair' },
+    { name: 'Name TBA', role: "Charge d'Affaires" }
+  ];
+  const roster = baseRoster.map((r,i)=>({ name: r.name, role: r.role, photo: r.photo, id:i }));
+
+  const track = document.getElementById('marquee-track');
+  const srList = document.getElementById('sr-secretariat-list');
+
+  function makeCard(m){
+    const el = document.createElement('div');
+    el.className='sec-card glass';
+    el.tabIndex = 0;
+    
+    const initials = m.name === 'Name TBA' ? 'TBA' : m.name.charAt(0).toUpperCase();
+    const avatarContent = m.photo 
+      ? `<img src="${m.photo}" alt="${m.name}" loading="lazy" /><div class="duotone-overlay"></div>`
+      : initials;
+    const photoNote = m.photo ? '' : `<div class="photo-note">Photo coming soon</div>`;
+
+    el.innerHTML = `
+      <div class="avatar" aria-hidden="true">${avatarContent}</div>
+      <div class="name">${m.name}</div>
+      ${photoNote}
+      <div class="detail-panel glass" aria-hidden="true">
+        <div class="name">${m.name}</div>
+        <div class="role">${m.role}</div>
+        <div class="bio">Bio coming soon.</div>
+      </div>`;
+    return el;
+  }
+
+  [...roster, ...roster].forEach(m => track.appendChild(makeCard(m)));
+
+  roster.forEach(m=>{
+    const li = document.createElement('li');
+    li.textContent = `${m.name} — ${m.role}`;
+    srList.appendChild(li);
+  });
+
+  const viewport = document.querySelector('.marquee-viewport');
+  if(reduceMotion){
+    track.style.animation = 'none';
+    viewport.style.overflowX = 'auto';
+  }
+  track.setAttribute('aria-live','off');
+
+  const lift = document.getElementById('marquee-lift');
+  let bobTimer = null;
+  function riseStart(){
+    if(reduceMotion){ lift.classList.add('is-risen'); return; }
+    lift.classList.add('is-risen');
+    clearTimeout(bobTimer);
+    bobTimer = setTimeout(()=> lift.classList.add('is-bobbing'), 500);
+  }
+  function riseEnd(){
+    clearTimeout(bobTimer);
+    lift.classList.remove('is-risen', 'is-bobbing');
+  }
+  viewport.addEventListener('mouseenter', riseStart);
+  viewport.addEventListener('mouseleave', riseEnd);
+  viewport.addEventListener('focusin', riseStart);
+  viewport.addEventListener('focusout', (e)=>{
+    if(!viewport.contains(e.relatedTarget)) riseEnd();
+  });
+})();
+
+/* ============ HISTORY TIMELINE ============ */
+(function(){
+  const events = [
+    { title:'Maiden Online Edition', body:"Vigilante's first digital conference hosted over 100 participants.", caption:'Where it began — 100+ delegates, fully online.' },
+    { title:'MUN 2.0 — Satyawati College, North Campus, University of Delhi', body:'Organised at Satyawati College, University of Delhi (North Campus), this edition hosted over 300 participants within a central university setting. Executing the conference required close coordination with Delhi University authorities, strict adherence to institutional protocols, and disciplined large-scale crowd management, standards that Vigilante successfully upheld.', caption:'300+ delegates, a university stage.' },
+    { title:'MUN 3.0 — Prudence School, Ashok Vihar', body:'Hosted at Prudence School, Ashok Vihar, a well-established and reputed academic institution, Vigilante MUN 3.0 marked our largest flagship edition with a footfall exceeding 400 participants.', caption:'Our biggest edition yet — 400+ delegates.' },
+  ];
+  const container = document.getElementById('timeline');
+  events.forEach((ev,i)=>{
+    const node = document.createElement('div');
+    node.className = 'timeline-node glass reveal';
+    node.style.transitionDelay = (i*0.08) + 's';
+    node.innerHTML = `
+      <div class="tl-head">
+        <div>
+          <span class="eyebrow">${String(i+1).padStart(2,'0')}</span>
+          <div class="tl-title">${ev.title}</div>
+          <div class="tl-caption">${ev.caption}</div>
+        </div>
+        <svg class="chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="tl-body"><p>${ev.body}</p></div>`;
+    node.addEventListener('click', ()=> node.classList.toggle('expanded'));
+    container.appendChild(node);
+  });
+})();
+
+/* ============ REVEAL-ON-SCROLL ENGINE ============ */
+(function(){
+  if(reduceMotion){
+    document.querySelectorAll('.reveal').forEach(el=> el.classList.add('in-view'));
+    return;
+  }
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        entry.target.classList.add('in-view');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold:0.18, rootMargin:'0px 0px -8% 0px' });
+  document.querySelectorAll('.reveal').forEach(el=> io.observe(el));
+})();
+
+/* ============ MOOD LAYER TINT ============ */
+(function(){
+  const layerA = document.getElementById('mood-layer-a');
+  const layerB = document.getElementById('mood-layer-b');
+  const moodEls = document.querySelectorAll('[data-mood]');
+  if(!moodEls.length) return;
+  let active = layerA, idle = layerB;
+  let currentColor = null;
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        const color = entry.target.getAttribute('data-mood');
+        if(color === currentColor) return;
+        currentColor = color;
+        idle.style.background = `linear-gradient(180deg, ${color} 0%, var(--dark-vanilla) 100%)`;
+        idle.style.opacity = '1';
+        active.style.opacity = '0';
+        const next = active; active = idle; idle = next;
+      }
+    });
+  }, { threshold:0.4 });
+  moodEls.forEach(el=> io.observe(el));
+})();
+
+/* ============ THREE.JS HERO SCENE ============ */
+(function(){
+  if(typeof THREE === 'undefined'){ console.warn('Vigilante MUN: three.js failed to load.'); return; }
+  const canvas = document.getElementById('hero-canvas');
+  const heroSection = document.getElementById('hero');
+  let width = heroSection.clientWidth, height = heroSection.clientHeight;
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(42, width/height, 0.1, 100);
+  camera.position.set(0, 2.3, 10.5);
+  camera.lookAt(0, 1.5, 0);
+
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha:true, antialias:true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(width, height);
+
+  const hemi = new THREE.HemisphereLight(0xFBEDEA, 0x6E120F, 0.9);
+  scene.add(hemi);
+  const key = new THREE.DirectionalLight(0xFFF3EF, 1.1);
+  key.position.set(4, 6, 6);
+  scene.add(key);
+  const rim = new THREE.PointLight(0xA91B18, 1.5, 14);
+  rim.position.set(0, 1.3, 1.6);
+  scene.add(rim);
+
+  function makeBeam(p1, p2, thickness, depth, material){
+    const start = new THREE.Vector3(...p1);
+    const end = new THREE.Vector3(...p2);
+    const dir = new THREE.Vector3().subVectors(end, start);
+    const length = dir.length();
+    const mid = new THREE.Vector3().addVectors(start, end).multiplyScalar(0.5);
+    const geo = new THREE.BoxGeometry(thickness, length, depth, 1, 6, 1);
+    const mesh = new THREE.Mesh(geo, material);
+    mesh.position.copy(mid);
+    const up = new THREE.Vector3(0, 1, 0);
+    mesh.quaternion.setFromUnitVectors(up, dir.clone().normalize());
+    return mesh;
+  }
+
+  const podium = new THREE.Group();
+  const pieces = [];
+
+  function addPiece(mesh, offset){
+    pieces.push({ mesh, basePos: mesh.position.clone(), offset });
+    podium.add(mesh);
+    return mesh;
+  }
+
+  const strokeMat = new THREE.MeshStandardMaterial({ color:0x7A2C29, roughness:0.5, metalness:0.28 });
+  const accentMat = new THREE.MeshStandardMaterial({ color:0xA91B18, roughness:0.3, metalness:0.45, emissive:0xA91B18, emissiveIntensity:1.0 });
+
+  const apexOuter = [0, -0.4, 0];
+  const armLeftOuter = [-2.0, 3.4, 0];
+  const armRightOuter = [2.0, 3.4, 0];
+  addPiece(makeBeam(armLeftOuter, apexOuter, 0.36, 0.36, strokeMat), new THREE.Vector3(-1.7, 0.7, 0.8));
+  addPiece(makeBeam(apexOuter, armRightOuter, 0.36, 0.36, strokeMat), new THREE.Vector3(1.7, 0.7, -0.8));
+
+  const apexInner = [0, 1.3, 0.06];
+  const armLeftInner = [-1.05, 3.4, 0.06];
+  const armRightInner = [1.05, 3.4, 0.06];
+  addPiece(makeBeam(armLeftInner, apexInner, 0.2, 0.24, accentMat), new THREE.Vector3(-1.1, -0.9, -0.9));
+  addPiece(makeBeam(apexInner, armRightInner, 0.2, 0.24, accentMat), new THREE.Vector3(1.1, -0.9, 0.9));
+
+  const pedestalMat = new THREE.MeshStandardMaterial({ color:0xE3B7B4, roughness:0.7, metalness:0.1 });
+  const pedestal = new THREE.Mesh(new THREE.CylinderGeometry(2.5, 2.8, 0.35, 48), pedestalMat);
+  pedestal.position.y = -0.75;
+  addPiece(pedestal, new THREE.Vector3(0, -0.6, 0));
+
+  scene.add(podium);
+
+  const groundMat = new THREE.MeshStandardMaterial({ color:0xF3E1DD, roughness:0.9, metalness:0, transparent:true, opacity:0.5 });
+  const ground = new THREE.Mesh(new THREE.CircleGeometry(9, 48), groundMat);
+  ground.rotation.x = -Math.PI/2;
+  ground.position.y = -0.95;
+  scene.add(ground);
+
+  const particleCount = 120;
+  const positions = new Float32Array(particleCount*3);
+  for(let i=0;i<particleCount;i++){
+    positions[i*3] = (Math.random()-0.5)*14;
+    positions[i*3+1] = Math.random()*7;
+    positions[i*3+2] = (Math.random()-0.5)*10 - 2;
+  }
+  const pGeo = new THREE.BufferGeometry();
+  pGeo.setAttribute('position', new THREE.BufferAttribute(positions,3));
+  const pMat = new THREE.PointsMaterial({ color:0xF3E1DD, size:0.035, transparent:true, opacity:0.5 });
+  const particles = new THREE.Points(pGeo, pMat);
+  scene.add(particles);
+
+  scene.fog = new THREE.FogExp2(0xF3E1DD, 0.035);
+
+  function onResize(){
+    width = heroSection.clientWidth; height = heroSection.clientHeight;
+    camera.aspect = width/height; camera.updateProjectionMatrix();
+    renderer.setSize(width, height);
+  }
+  window.addEventListener('resize', onResize);
+
+  let mouseX = 0, mouseY = 0;
+  if(!isTouch){
+    window.addEventListener('mousemove', (e)=>{
+      mouseX = (e.clientX / window.innerWidth) - 0.5;
+      mouseY = (e.clientY / window.innerHeight) - 0.5;
+    });
+  }
+
+  const wrapEl = document.getElementById('hero-cinema-wrap');
+  const heroContentEl = document.getElementById('hero-content');
+  const scrollCueEl = document.getElementById('scroll-cue');
+  const lookTarget = new THREE.Vector3(0, 1.5, 0);
+  const clamp01 = (v)=> Math.max(0, Math.min(1, v));
+  const lerp = (a,b,t)=> a + (b-a)*t;
+  const smoothstep = (edge0, edge1, x)=>{
+    const t = clamp01((x-edge0)/(edge1-edge0));
+    return t*t*(3-2*t);
+  };
+
+  function getRawProgress(){
+    const rect = wrapEl.getBoundingClientRect();
+    const total = wrapEl.offsetHeight - window.innerHeight;
+    if(total <= 0) return 0;
+    return clamp01(-rect.top / total);
+  }
+
+  let smoothProgress = 0;
+  let lastSmooth = 0;
+  let blurCurrent = 0;
+  const baseRimIntensity = 1.4;
+
+  function applyAct(p){
+    const eEstablish = smoothstep(0.0, 0.35, p);
+    const eOrbit = smoothstep(0.35, 0.75, p);
+    const ePush = smoothstep(0.75, 1.0, p);
+    const breakRise = smoothstep(0.35, 0.55, p);
+    const breakFall = smoothstep(0.55, 0.75, p);
+    const breakAmount = breakRise - breakFall;
+
+    const radius = lerp(10.5, 7.0, eEstablish) - lerp(0, 0.8, eOrbit) - lerp(0, 1.9, ePush);
+    const camHeight = lerp(2.3, 1.8, eEstablish) + lerp(0, 0.3, eOrbit) - lerp(0, 0.4, ePush);
+    const azimuth = lerp(0, 1.15, eOrbit) + lerp(0, 0.2, ePush);
+    const targetY = lerp(1.5, 1.5, eEstablish) + lerp(0, 0.7, ePush);
+
+    let camX = Math.sin(azimuth) * radius;
+    let camZ = Math.cos(azimuth) * radius;
+
+    if(!isTouch && !reduceMotion){
+      camX += mouseX * 0.8;
+      camHeightMouseOffset = -mouseY * 0.35;
+    } else {
+      camHeightMouseOffset = 0;
+    }
+
+    camera.position.set(camX, camHeight + camHeightMouseOffset, camZ);
+    lookTarget.set(0, targetY, 0);
+    camera.lookAt(lookTarget);
+
+    rim.intensity = baseRimIntensity + ePush * 1.4 + breakAmount * 0.6;
+    key.intensity = 1.1 + eOrbit * 0.15;
+
+    pieces.forEach(piece=>{
+      piece.mesh.position.copy(piece.basePos).addScaledVector(piece.offset, breakAmount);
+    });
+
+    const contentOpacity = 1 - smoothstep(0.28, 0.55, p);
+    heroContentEl.style.opacity = contentOpacity;
+    heroContentEl.style.transform = `translateY(${-p*60}px)`;
+    scrollCueEl.style.opacity = String(1 - smoothstep(0, 0.1, p));
+  }
+  let camHeightMouseOffset = 0;
+
+  let spinTriggered = false, spinDone = reduceMotion, spinStart = 0;
+  const spinDuration = 2.2;
+  function easeInOutCubic(x){ return x < 0.5 ? 4*x*x*x : 1 - Math.pow(-2*x+2, 3)/2; }
+
+  const clock = new THREE.Clock();
+  function animate(){
+    requestAnimationFrame(animate);
+    const t = clock.getElapsedTime();
+
+    if(!spinTriggered && document.getElementById('intro-overlay').classList.contains('opened')){
+      spinTriggered = true;
+      spinStart = t;
+    }
+    if(spinTriggered && !spinDone){
+      const st = Math.min((t - spinStart) / spinDuration, 1);
+      podium.rotation.y = easeInOutCubic(st) * Math.PI * 2;
+      if(st >= 1){ spinDone = true; podium.rotation.y = 0; }
+    } else {
+      podium.rotation.y = Math.sin(t*0.15)*0.05;
+    }
+    particles.rotation.y = t*0.02;
+
+    const raw = getRawProgress();
+    smoothProgress += (raw - smoothProgress) * (reduceMotion ? 1 : 0.09);
+    applyAct(smoothProgress);
+
+    if(!reduceMotion){
+      const velocity = Math.abs(smoothProgress - lastSmooth);
+      const blurTarget = Math.min(velocity * 900, 3.5);
+      blurCurrent += (blurTarget - blurCurrent) * 0.25;
+      const breathe = 1 + Math.sin(t*0.6)*0.008;
+      canvas.style.filter = `brightness(1.08) contrast(1.06) saturate(1.18) blur(${blurCurrent.toFixed(2)}px)`;
+      canvas.style.transform = `scale(${breathe})`;
+    }
+    lastSmooth = smoothProgress;
+
+    renderer.render(scene, camera);
+  }
+  animate();
+})();
+</script>
+</body>
+</html>

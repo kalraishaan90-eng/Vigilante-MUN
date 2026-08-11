@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <!-- UNSC Emblem: Security Shield & UN Globe -->
+  <circle cx="60" cy="60" r="46" fill="rgba(122, 44, 41, 0.4)" stroke="#CEE7F3" stroke-width="1.5"/>
+  
+  <!-- Security Shield Boundary -->
+  <path d="M60 22 L86 34 V56 C86 74 72 88 60 94 C48 88 34 74 34 56 V34 L60 22 Z" stroke="#F8FAED" stroke-width="2.5" fill="rgba(206, 231, 243, 0.15)"/>
+  
+  <!-- Inner UN Globe Map -->
+  <circle cx="60" cy="54" r="18" stroke="#CEE7F3" stroke-width="1.5"/>
+  <path d="M60 36 V72 M42 54 H78 M47 41 L73 67 M47 67 L73 41" stroke="#CEE7F3" stroke-width="1" opacity="0.75"/>
+  <circle cx="60" cy="54" r="5" fill="#F8FAED"/>
+</svg>

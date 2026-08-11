@@ -1,0 +1,43 @@
+{
+  "name": "vigilante-mun",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@react-three/drei": "^9.121.5",
+    "@react-three/fiber": "^8.17.10",
+    "@use-gesture/react": "^10.3.1",
+    "clsx": "^2.1.1",
+    "framer-motion": "^11.11.11",
+    "gsap": "^3.15.0",
+    "lucide-react": "^0.454.0",
+    "maath": "^0.10.8",
+    "next": "^15.1.0",
+    "ogl": "^1.0.11",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "tailwind-merge": "^2.5.4",
+    "three": "^0.169.0"
+  },
+  "overrides": {
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.0",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@types/three": "^0.169.0",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "^15.1.0",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.14",
+    "typescript": "^5.6.3"
+  }
+}

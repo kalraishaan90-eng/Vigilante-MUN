@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <!-- UN Laurel Wreath & World Grid Map for UNGA -->
+  <circle cx="60" cy="60" r="54" stroke="#F8FAED" stroke-width="1.5" stroke-opacity="0.3" stroke-dasharray="3 3"/>
+  <circle cx="60" cy="60" r="46" fill="rgba(122, 44, 41, 0.4)" stroke="#CEE7F3" stroke-width="1.5"/>
+  
+  <!-- Outer Laurel Wreath Left -->
+  <path d="M32 75 C24 62 26 44 38 32 C34 42 36 56 46 64 C38 68 34 72 32 75 Z" fill="#CEE7F3" opacity="0.9"/>
+  <path d="M26 62 C22 52 26 38 35 28 C34 38 38 48 46 54 C38 58 30 60 26 62 Z" fill="#CEE7F3" opacity="0.8"/>
+  
+  <!-- Outer Laurel Wreath Right -->
+  <path d="M88 75 C96 62 94 44 82 32 C86 42 84 56 74 64 C82 68 86 72 88 75 Z" fill="#CEE7F3" opacity="0.9"/>
+  <path d="M94 62 C98 52 94 38 85 28 C86 38 82 48 74 54 C82 58 90 60 94 62 Z" fill="#CEE7F3" opacity="0.8"/>
+  
+  <!-- Concentric Polar Grid / World Projection Map -->
+  <circle cx="60" cy="60" r="28" stroke="#F8FAED" stroke-width="1.5" fill="rgba(206, 231, 243, 0.15)"/>
+  <circle cx="60" cy="60" r="18" stroke="#F8FAED" stroke-width="1" opacity="0.7"/>
+  <circle cx="60" cy="60" r="8" stroke="#F8FAED" stroke-width="1" opacity="0.5"/>
+  <path d="M60 32 V88 M32 60 H88 M40 40 L80 80 M40 80 L80 40" stroke="#F8FAED" stroke-width="1" opacity="0.6"/>
+  
+  <!-- UN Star Crown -->
+  <polygon points="60,22 62,27 67,27 63,30 65,35 60,32 55,35 57,30 53,27 58,27" fill="#F8FAED"/>
+</svg>

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <!-- IPL Emblem: Crossed Cricket Bats, Wickets & Crest -->
+  <circle cx="60" cy="60" r="46" fill="rgba(110, 18, 15, 0.4)" stroke="#CEE7F3" stroke-width="1.5"/>
+  
+  <!-- Wickets -->
+  <rect x="52" y="44" width="3" height="32" rx="1.5" fill="#F8FAED"/>
+  <rect x="58.5" y="44" width="3" height="32" rx="1.5" fill="#F8FAED"/>
+  <rect x="65" y="44" width="3" height="32" rx="1.5" fill="#F8FAED"/>
+  <rect x="50" y="41" width="20" height="3" rx="1" fill="#CEE7F3"/>
+  
+  <!-- Crossed Bats -->
+  <path d="M30 84 L78 36 L86 44 L38 92 Z" fill="#CEE7F3" opacity="0.85"/>
+  <path d="M90 84 L42 36 L34 44 L82 92 Z" fill="#CEE7F3" opacity="0.85"/>
+  
+  <!-- Cricket Ball -->
+  <circle cx="60" cy="32" r="10" fill="#A91B18" stroke="#F8FAED" stroke-width="1.5"/>
+  <path d="M54 32 C58 26 62 38 66 32" stroke="#F8FAED" stroke-width="1" stroke-dasharray="1 1"/>
+  
+  <!-- Star Crest -->
+  <polygon points="60,16 63,22 70,22 65,26 67,32 60,28 53,32 55,26 50,22 57,22" fill="#F8FAED"/>
+</svg>

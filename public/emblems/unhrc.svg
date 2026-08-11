@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <!-- UNHRC Emblem: Blue Flame & Laurel Wreath -->
+  <circle cx="60" cy="60" r="46" fill="rgba(110, 18, 15, 0.4)" stroke="#CEE7F3" stroke-width="1.5"/>
+  
+  <!-- Outer Laurel Wreath Left & Right -->
+  <path d="M30 72 C22 58 26 40 40 30 C34 40 38 54 48 60 C38 64 32 70 30 72 Z" fill="#CEE7F3" opacity="0.9"/>
+  <path d="M90 72 C98 58 94 40 80 30 C86 40 82 54 72 60 C82 64 88 70 90 72 Z" fill="#CEE7F3" opacity="0.9"/>
+  
+  <!-- Human Rights Blue Flame -->
+  <path d="M60 26 C64 36 74 44 74 58 C74 70 66 78 60 78 C54 78 46 70 46 58 C46 44 56 36 60 26 Z" fill="#CEE7F3" opacity="0.95"/>
+  <path d="M60 38 C62 44 68 50 68 58 C68 64 64 68 60 68 C56 68 52 64 52 58 C52 50 58 44 60 38 Z" fill="#F8FAED"/>
+  <path d="M60 48 C61 52 64 54 64 58 C64 61 62 63 60 63 C58 63 56 61 56 58 C56 54 59 52 60 48 Z" fill="#A91B18"/>
+</svg>

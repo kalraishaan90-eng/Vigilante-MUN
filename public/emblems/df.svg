@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="#A91B18" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="50" cy="50" r="42" stroke="#7A2C29" stroke-width="4"/>
+  <path d="M30 30 L50 75 L70 30" stroke="#A91B18" stroke-width="4"/>
+  <path d="M40 30 L50 52 L60 30" stroke="#E3B7B4" stroke-width="3"/>
+  <text x="50" y="90" font-family="sans-serif" font-size="10" font-weight="bold" fill="#7A2C29" text-anchor="middle">DISNEYVERSE FEUD</text>
+</svg>

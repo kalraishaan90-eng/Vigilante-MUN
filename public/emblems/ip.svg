@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <!-- International Press Emblem: Press Camera & Laurel Emblem -->
+  <circle cx="60" cy="60" r="46" fill="rgba(122, 44, 41, 0.4)" stroke="#CEE7F3" stroke-width="1.5"/>
+  
+  <!-- Camera Body -->
+  <rect x="34" y="44" width="52" height="36" rx="6" stroke="#F8FAED" stroke-width="2" fill="rgba(248, 250, 237, 0.1)"/>
+  <path d="M48 44 L52 36 H68 L72 44 Z" fill="#F8FAED"/>
+  
+  <!-- Camera Lens -->
+  <circle cx="60" cy="62" r="14" stroke="#F8FAED" stroke-width="2.5" fill="rgba(206, 231, 243, 0.2)"/>
+  <circle cx="60" cy="62" r="8" fill="#CEE7F3"/>
+  <circle cx="57" cy="59" r="2.5" fill="#F8FAED"/>
+  
+  <!-- Flash / Viewfinder -->
+  <rect x="72" y="48" width="8" height="5" rx="1" fill="#F8FAED"/>
+  
+  <!-- Laurel Arc -->
+  <path d="M26 64 C20 48 30 32 44 26 M94 64 C100 48 90 32 76 26" stroke="#CEE7F3" stroke-width="2" stroke-linecap="round"/>
+</svg>
