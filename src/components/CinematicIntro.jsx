@@ -48,7 +48,7 @@ export default function CinematicIntro({ onComplete }) {
             <path d="M15 20 L60 100 L105 20 M40 20 L60 58 L80 20" />
           </svg>
         </div>
-        <div className="intro-label">Vigilante MUN</div>
+        <div className="intro-label">The Vigilante MUN</div>
       </div>
 
       <button

@@ -1,6 +1,49 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600..900&family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Bebas+Neue&family=Cinzel:wght@400;600;700;800;900&family=Fraunces:opsz,wght@9..144,400..900&family=Inter:wght@400;500;600;700&display=swap');
+
+@font-face {
+  font-family: 'Fontuna';
+  src: local('Fontuna'), local('Fontuna-Regular'), local('FONTUNA'), url('/fonts/fontuna.woff2') format('woff2'), url('/fonts/fontuna.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'fontuna';
+  src: local('Fontuna'), local('Fontuna-Regular'), local('FONTUNA'), url('/fonts/fontuna.woff2') format('woff2'), url('/fonts/fontuna.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'TAN HARMONI';
+  src: local('TAN HARMONI'), local('Tan Harmoni'), local('TAN-HARMONI'), local('TanHarmoni'), url('/fonts/tan-harmoni.woff2') format('woff2'), url('/fonts/tan-harmoni.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Tan Harmoni';
+  src: local('TAN HARMONI'), local('Tan Harmoni'), local('TAN-HARMONI'), local('TanHarmoni'), url('/fonts/tan-harmoni.woff2') format('woff2'), url('/fonts/tan-harmoni.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'tan harmoni';
+  src: local('TAN HARMONI'), local('Tan Harmoni'), local('TAN-HARMONI'), local('TanHarmoni'), url('/fonts/tan-harmoni.woff2') format('woff2'), url('/fonts/tan-harmoni.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
 
 :root {
+  --font-fontuna: 'Fontuna', 'fontuna', 'FONTUNA', 'Bebas Neue', 'Cinzel', sans-serif;
+  --font-tan-harmoni: 'TAN HARMONI', 'Tan Harmoni', 'tan harmoni', 'Bodoni Moda', 'Fraunces', Georgia, serif;
+
   /* Locked Color Token List */
   --dark-vanilla: #F3E1DD;
   --dark-vanilla-rgb: 243, 225, 221;
@@ -163,16 +206,17 @@ section {
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.6) inset, 0 8px 24px rgba(var(--phil-brown-rgb), 0.12);
   transition: transform 0.25s var(--ease);
   max-width: 95vw;
+  font-family: var(--font-tan-harmoni), 'TAN HARMONI', 'Tan Harmoni', 'tan harmoni', 'Bodoni Moda', 'Fraunces', serif;
 }
 
 #hud-nav .logo-mark {
   display: flex;
   align-items: center;
   gap: 6px;
-  font-family: 'Fraunces', serif;
-  font-weight: 800;
+  font-family: var(--font-tan-harmoni), 'TAN HARMONI', 'Tan Harmoni', 'tan harmoni', 'Bodoni Moda', 'Fraunces', serif;
+  font-weight: 700;
   font-size: 13px;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.04em;
   color: var(--phil-brown);
   cursor: pointer;
 }
@@ -183,6 +227,7 @@ section {
 }
 
 #hud-nav .nav-links a {
+  font-family: var(--font-tan-harmoni), 'TAN HARMONI', 'Tan Harmoni', 'tan harmoni', 'Bodoni Moda', 'Fraunces', serif;
   font-size: 12px;
   font-weight: 600;
   color: var(--quincy);
@@ -338,8 +383,8 @@ section {
 }
 
 .wordmark {
-  font-family: 'Fraunces', serif;
-  font-weight: 900;
+  font-family: var(--font-tan-harmoni), 'TAN HARMONI', 'Tan Harmoni', 'tan harmoni', 'Bodoni Moda', 'Fraunces', serif;
+  font-weight: 700;
   font-size: clamp(46px, 9vw, 108px);
   color: color-mix(in srgb, var(--ink) calc(var(--hero-bg-mix, 0) * 100%), var(--warm-white));
   line-height: 0.92;
@@ -2231,10 +2276,11 @@ footer .foot-note {
 #intro-overlay .intro-label {
   margin-top: 22px;
   color: var(--dark-vanilla);
-  font-family: 'Fraunces', serif;
+  font-family: var(--font-fontuna), 'Fontuna', 'fontuna', 'FONTUNA', 'Bebas Neue', 'Cinzel', sans-serif;
+  font-weight: 400; /* not bold */
   letter-spacing: 0.3em;
-  text-transform: uppercase;
-  font-size: 12px;
+  text-transform: uppercase; /* all caps */
+  font-size: 13px;
   opacity: 0;
   animation: fade-in-label .8s ease forwards 1.1s;
 }
@@ -2607,5 +2653,581 @@ footer .foot-note {
   position: relative;
   z-index: 1;
 }
+
+/* ==========================================================================
+   3D Animated Credit/Debit Card Payment (Instagram Reel Concept)
+   ========================================================================== */
+.card-checkout-container {
+  width: 100%;
+}
+
+.card-checkout-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .card-checkout-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Card Slot with Halo Glow */
+.card-slot {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 28px 16px;
+  background: rgba(15, 20, 28, 0.95);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.6);
+  perspective: 1000px;
+  overflow: hidden;
+}
+
+.glow--ok {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  border-radius: 24px;
+  box-shadow: 0 0 35px 8px rgba(31, 181, 115, 0.25), 0 0 70px 20px rgba(110, 18, 15, 0.3);
+  transition: opacity 0.5s ease;
+}
+
+.card__tilt {
+  width: 310px;
+  height: 190px;
+  position: relative;
+  transition: transform 0.15s ease-out;
+  transform-style: preserve-3d;
+  cursor: pointer;
+}
+
+.card__inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.card__inner.is-flipped {
+  transform: rotateY(180deg);
+}
+
+.card__face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  border-radius: 16px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.2);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+/* Front Face Styling */
+.card__face--front {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 50%, #334155 100%);
+  background-size: 200% 200%;
+  color: #ffffff;
+  overflow: hidden;
+}
+
+.card__face--front::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.card-top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chip-and-contactless {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.emv-chip {
+  width: 36px;
+  height: 26px;
+  background: linear-gradient(135deg, #fcd34d 0%, #f59e0b 100%);
+  border-radius: 6px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  padding: 3px;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.4);
+}
+
+.chip-line {
+  height: 1px;
+  background: rgba(0, 0, 0, 0.3);
+  width: 100%;
+}
+
+.contactless-icon {
+  width: 20px;
+  height: 20px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.card-brand-tag {
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  font-size: 14px;
+  color: #ffffff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.card-number-area {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-align: center;
+  margin: 12px 0;
+  color: #ffffff;
+}
+
+/* Engraved Text Effect */
+.pan {
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7), 0 -1px 0 rgba(0, 0, 0, 0.8);
+}
+
+.card-bottom-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.card-meta-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-meta-label {
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 2px;
+}
+
+.card-meta-val {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #ffffff;
+}
+
+/* Back Face Styling */
+.card__face--back {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  color: #ffffff;
+  transform: rotateY(180deg);
+  padding: 0;
+}
+
+.card-mag-stripe {
+  width: 100%;
+  height: 38px;
+  background: #000000;
+  margin-top: 18px;
+}
+
+.signature-strip-container {
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sig-pattern {
+  flex: 1;
+  height: 28px;
+  background: #ffffff;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  font-size: 8px;
+  font-family: cursive;
+  color: #333333;
+}
+
+.cvc-display-box {
+  width: 44px;
+  height: 28px;
+  background: #ffffff;
+  border-radius: 4px;
+  color: #000000;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 800;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: 1px;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);
+}
+
+.card-back-info {
+  padding: 0 18px 16px;
+  font-size: 8.5px;
+  color: rgba(255, 255, 255, 0.5);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.bank-stamp {
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.card-slot-hint {
+  margin-top: 14px;
+  font-size: 11.5px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Card Input Form Controls */
+.card-form-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.input-with-badge {
+  position: relative;
+}
+
+.card-type-badge {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  background: var(--phil-brown);
+  color: #ffffff;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.form-row-half {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.card-toggle-row {
+  margin-top: 4px;
+}
+
+.checkbox-toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  color: var(--quincy);
+  cursor: pointer;
+}
+
+.pci-security-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #059669;
+  background: rgba(5, 150, 105, 0.1);
+  padding: 8px 12px;
+  border-radius: 8px;
+  margin-top: 4px;
+}
+
+
+/* ==========================================================================
+   Smartphone Device Mockup for UPI QR Payments
+   ========================================================================== */
+.phone-upi-wrapper {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 28px;
+  align-items: center;
+  padding: 10px 0;
+}
+
+@media (max-width: 768px) {
+  .phone-upi-wrapper {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+}
+
+/* Smartphone Chassis */
+.phone-device-mockup {
+  position: relative;
+  width: 250px;
+  height: 470px;
+  background: #18181b;
+  border-radius: 38px;
+  padding: 9px;
+  box-shadow: 
+    0 25px 50px -12px rgba(0, 0, 0, 0.35),
+    0 0 0 2px #27272a,
+    0 0 0 5px #09090b;
+}
+
+/* Side Buttons */
+.phone-btn {
+  position: absolute;
+  background: #27272a;
+  border-radius: 2px;
+}
+
+.phone-btn-vol-up { left: -7px; top: 90px; width: 4px; height: 35px; }
+.phone-btn-vol-down { left: -7px; top: 135px; width: 4px; height: 35px; }
+.phone-btn-power { right: -7px; top: 110px; width: 4px; height: 50px; }
+
+/* Phone Inner Screen */
+.phone-screen {
+  width: 100%;
+  height: 100%;
+  background: #ffffff;
+  border-radius: 30px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Top Status Bar */
+.phone-status-bar {
+  height: 32px;
+  background: #0f172a;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.phone-dynamic-island {
+  width: 65px;
+  height: 14px;
+  background: #000000;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.phone-camera-lens {
+  width: 6px;
+  height: 6px;
+  background: #1e293b;
+  border-radius: 50%;
+}
+
+.phone-status-icons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Phone App Header */
+.phone-app-header {
+  background: linear-gradient(135deg, var(--phil-brown) 0%, #4a0d0a 100%);
+  color: #ffffff;
+  padding: 12px 10px 8px;
+  text-align: center;
+}
+
+.phone-app-tag {
+  font-size: 8.5px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: var(--dark-vanilla);
+  text-transform: uppercase;
+}
+
+.phone-amount {
+  font-size: 19px;
+  font-weight: 900;
+  margin: 2px 0 0;
+  color: #ffffff;
+}
+
+.phone-sub {
+  font-size: 10px;
+  opacity: 0.85;
+  margin: 2px 0 0;
+}
+
+/* QR Code Frame inside Phone Screen */
+.phone-qr-frame {
+  position: relative;
+  margin: 12px auto 6px;
+  width: 160px;
+  height: 160px;
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 8px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+  border: 1px solid #e2e8f0;
+}
+
+.phone-qr-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.phone-qr-scanner-line {
+  position: absolute;
+  top: 10%;
+  left: 5%;
+  width: 90%;
+  height: 2px;
+  background: #22c55e;
+  box-shadow: 0 0 8px #22c55e;
+  animation: phoneQrScan 2.5s infinite ease-in-out;
+}
+
+@keyframes phoneQrScan {
+  0%, 100% { top: 10%; }
+  50% { top: 85%; }
+}
+
+/* Copy UPI Bar inside Phone */
+.phone-upi-id-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 20px;
+  padding: 3px 5px 3px 10px;
+  margin: 4px 12px;
+}
+
+.phone-upi-val {
+  font-family: monospace;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.phone-copy-btn {
+  background: var(--phil-brown);
+  color: #ffffff;
+  border: none;
+  padding: 4px 9px;
+  border-radius: 12px;
+  font-size: 9.5px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* Supported Apps Pills inside Phone */
+.phone-apps-pill-row {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.app-pill {
+  font-size: 8px;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 6px;
+  color: #ffffff;
+}
+
+.app-pill.gpay { background: #ea4335; }
+.app-pill.phonepe { background: #5f259f; }
+.app-pill.paytm { background: #00baf2; }
+.app-pill.bhim { background: #ff9900; }
+
+.phone-home-bar {
+  width: 90px;
+  height: 4px;
+  background: #000000;
+  border-radius: 2px;
+  margin: auto auto 6px;
+}
+
+/* Side Box for UTR Form */
+.phone-utr-sidebox {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(var(--quincy-rgb), 0.2);
+  border-radius: 20px;
+  padding: 22px;
+}
+
+.upi-guide-list {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.guide-step {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12.5px;
+  color: var(--quincy);
+}
+
+.guide-step .step-num {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--phil-brown);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
 
 

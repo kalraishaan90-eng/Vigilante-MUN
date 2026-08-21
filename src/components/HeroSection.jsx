@@ -27,10 +27,10 @@ export default function HeroSection({ onRegisterClick, onExploreClick }) {
         <div className="hero-content" ref={heroContentRef}>
           <span className="eyebrow">OCTOBER 10–11 • DELHI UNIVERSITY</span>
           
-          <h1 className="wordmark revealed" aria-label="Vigilante MUN 4.0">
+          <h1 className="wordmark revealed" aria-label="The vigilante mun 4.0">
             <span className="wordmark-line" style={{ display: 'block', marginBottom: '0.15em', maxWidth: '100%' }}>
               <DepthText
-                text="VIGILANTE"
+                text="The vigilante mun 4.0"
                 layers={14}
                 depth={0.8}
                 faceColor="#F8FAED"
@@ -41,13 +41,11 @@ export default function HeroSection({ onRegisterClick, onExploreClick }) {
                 perspective={900}
                 autoOrbit
                 orbitSpeed={0.35}
-                fontSize="clamp(2.5rem, 8vw, 5.5rem)"
-                fontWeight={900}
+                fontSize="clamp(2rem, 5.8vw, 4.5rem)"
+                fontWeight={700}
+                fontFamily="'TAN HARMONI', 'Tan Harmoni', 'tan harmoni', 'Bodoni Moda', 'Fraunces', serif"
                 shadow
               />
-            </span>
-            <span className="wordmark-line line-mun">
-              MUN 4.0
             </span>
             <span className="wordmark-underline" />
           </h1>

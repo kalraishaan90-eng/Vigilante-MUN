@@ -28,6 +28,7 @@ const DepthText = ({
   orbitSpeed = 0.35,
   fontSize = 'clamp(3rem, 12vw, 7rem)',
   fontWeight = 900,
+  fontFamily = "'TAN HARMONI', 'Tan Harmoni', 'tan harmoni', 'Bodoni Moda', 'Fraunces', serif",
   shadow = true,
   className = '',
   style = {}
@@ -99,34 +100,33 @@ const DepthText = ({
       target.y = baseRotation.y;
     };
 
-    if (canTrackPointer) {
-      window.addEventListener('pointermove', handlePointerMove);
-      window.addEventListener('pointerleave', handlePointerLeave);
-      window.addEventListener('blur', handlePointerLeave);
-    }
+    root.addEventListener('pointermove', handlePointerMove);
+    root.addEventListener('pointerleave', handlePointerLeave);
 
-    const tick = now => {
-      if ((!canTrackPointer || !activePointer) && autoOrbit) {
-        const elapsed = (now - startTime) / 1000;
-        const orbit = elapsed * safeOrbitSpeed * Math.PI * 2;
-        const fallbackAmount = canTrackPointer ? 0.18 : 0.55;
-        target.x = baseRotation.x + Math.sin(orbit) * safeTilt * fallbackAmount;
-        target.y = baseRotation.y + Math.cos(orbit * 0.85) * safeTilt * fallbackAmount;
+    const animate = time => {
+      if (canTrackPointer && !activePointer && autoOrbit && safeOrbitSpeed > 0) {
+        if (!startTime) startTime = time;
+        const elapsed = (time - startTime) * 0.001 * safeOrbitSpeed;
+        target.x = baseRotation.x + Math.sin(elapsed * 1.3) * safeTilt * 0.45;
+        target.y = baseRotation.y + Math.cos(elapsed) * safeTilt * 0.65;
       }
 
       current.x += (target.x - current.x) * safeSmoothing;
       current.y += (target.y - current.y) * safeSmoothing;
       applyTransform();
-      frameId = requestAnimationFrame(tick);
+      frameId = requestAnimationFrame(animate);
     };
 
-    applyTransform();
-    frameId = requestAnimationFrame(tick);
+    frameId = requestAnimationFrame(animate);
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener('blur', handlePointerLeave);
+    }
 
     return () => {
-      if (canTrackPointer) {
-        window.removeEventListener('pointermove', handlePointerMove);
-        window.removeEventListener('pointerleave', handlePointerLeave);
+      root.removeEventListener('pointermove', handlePointerMove);
+      root.removeEventListener('pointerleave', handlePointerLeave);
+      if (typeof window !== 'undefined') {
         window.removeEventListener('blur', handlePointerLeave);
       }
       cancelAnimationFrame(frameId);
@@ -139,6 +139,8 @@ const DepthText = ({
     '--depth-text-perspective': `${safePerspective}px`,
     '--depth-text-font-size': fontSize,
     '--depth-text-font-weight': fontWeight,
+    '--depth-text-font-family': fontFamily,
+    fontFamily: fontFamily,
     '--depth-text-face-color': faceColor,
     '--depth-text-depth-color': depthColor,
     '--depth-text-shadow': shadow
